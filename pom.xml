@@ -78,7 +78,7 @@
         <!--suppress VulnerableLibrariesLocal -->
         <dependency>
             <groupId>com.github.NuVotifier.NuVotifier</groupId>
-            <artifactId>nuvotifier-universal</artifactId>
+            <artifactId>nuvotifier-bukkit</artifactId>
             <version>2.7.2</version>
             <scope>provided</scope>
         </dependency>
