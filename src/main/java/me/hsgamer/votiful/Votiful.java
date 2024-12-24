@@ -1,17 +1,30 @@
 package me.hsgamer.votiful;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import io.github.projectunified.minelib.plugin.base.BasePlugin;
+import me.hsgamer.hscore.bukkit.config.BukkitConfig;
+import me.hsgamer.hscore.config.proxy.ConfigGenerator;
+import me.hsgamer.votiful.builder.VoteStorageBuilder;
+import me.hsgamer.votiful.config.DatabaseConfig;
+import me.hsgamer.votiful.listener.VoteListener;
+import me.hsgamer.votiful.manager.VoteManager;
 
-public final class Votiful extends JavaPlugin {
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
+public final class Votiful extends BasePlugin {
     @Override
-    public void onEnable() {
-        // Plugin startup logic
+    protected List<Object> getComponents() {
+        return Arrays.asList(
+                new VoteStorageBuilder(
+                        this,
+                        new File(getDataFolder(), "data"),
+                        () -> ConfigGenerator.newInstance(DatabaseConfig.class, new BukkitConfig(this, "database.yml")).toDatabaseSetting()
+                ),
 
-    }
+                new VoteManager(this),
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+                new VoteListener(this)
+        );
     }
 }
