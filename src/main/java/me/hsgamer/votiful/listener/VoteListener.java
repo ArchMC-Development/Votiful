@@ -3,8 +3,6 @@ package me.hsgamer.votiful.listener;
 import com.vexsoftware.votifier.model.VotifierEvent;
 import io.github.projectunified.minelib.plugin.listener.ListenerComponent;
 import me.hsgamer.votiful.Votiful;
-import me.hsgamer.votiful.config.MainConfig;
-import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteValue;
 import me.hsgamer.votiful.manager.VoteManager;
 import org.bukkit.event.EventHandler;
@@ -23,8 +21,6 @@ public class VoteListener implements ListenerComponent {
 
     @EventHandler
     public void onVote(VotifierEvent event) {
-        plugin.get(VoteManager.class).getHolder()
-                .getOrCreateEntry(new VoteKey(plugin.get(MainConfig.class).getServerName()))
-                .setValue(VoteValue.fromVotifier(event.getVote()));
+        plugin.get(VoteManager.class).getHolder().createEntry().setValue(VoteValue.fromVotifier(event.getVote()));
     }
 }

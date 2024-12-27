@@ -3,6 +3,7 @@ package me.hsgamer.votiful.holder;
 import io.github.projectunified.minelib.scheduler.async.AsyncScheduler;
 import me.hsgamer.topper.agent.holder.AgentDataHolder;
 import me.hsgamer.topper.agent.storage.StorageAgent;
+import me.hsgamer.topper.core.DataEntry;
 import me.hsgamer.topper.spigot.agent.runnable.SpigotRunnableAgent;
 import me.hsgamer.topper.storage.simple.converter.FlatEntryConverter;
 import me.hsgamer.topper.storage.simple.converter.MapEntryConverter;
@@ -10,6 +11,7 @@ import me.hsgamer.topper.storage.simple.converter.SqlEntryConverter;
 import me.hsgamer.topper.storage.simple.setting.DataStorageSetting;
 import me.hsgamer.votiful.Votiful;
 import me.hsgamer.votiful.agent.VoteSyncAgent;
+import me.hsgamer.votiful.config.MainConfig;
 import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteValue;
 import me.hsgamer.votiful.manager.VoteManager;
@@ -21,10 +23,12 @@ import java.util.Map;
 import java.util.UUID;
 
 public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
+    private final Votiful plugin;
     private final StorageAgent<VoteKey, VoteValue> storageAgent;
 
     public VoteHolder(Votiful plugin, String name) {
         super(name);
+        this.plugin = plugin;
 
         storageAgent = new StorageAgent<>(plugin.getLogger(), this, plugin.get(VoteManager.class).getSupplier().getStorage(name, new DataStorageSetting<VoteKey, VoteValue>() {
             @Override
@@ -211,5 +215,9 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
 
     public StorageAgent<VoteKey, VoteValue> getStorageAgent() {
         return storageAgent;
+    }
+
+    public DataEntry<VoteKey, VoteValue> createEntry() {
+        return getOrCreateEntry(new VoteKey(plugin.get(MainConfig.class).getServerName()));
     }
 }
