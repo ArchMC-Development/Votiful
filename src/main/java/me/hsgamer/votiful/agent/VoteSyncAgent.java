@@ -28,7 +28,7 @@ public class VoteSyncAgent implements Agent<VoteKey, VoteValue>, Runnable {
         }
 
         for (VoteKey key : toRemove) {
-            holder.getEntryMap().remove(key);
+            holder.removeEntry(key);
         }
 
         for (Map.Entry<VoteKey, VoteValue> entry : storageMap.entrySet()) {
