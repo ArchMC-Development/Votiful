@@ -10,6 +10,7 @@ import me.hsgamer.topper.storage.simple.converter.MapEntryConverter;
 import me.hsgamer.topper.storage.simple.converter.SqlEntryConverter;
 import me.hsgamer.topper.storage.simple.setting.DataStorageSetting;
 import me.hsgamer.votiful.Votiful;
+import me.hsgamer.votiful.agent.VoteStatsAgent;
 import me.hsgamer.votiful.agent.VoteSyncAgent;
 import me.hsgamer.votiful.config.MainConfig;
 import me.hsgamer.votiful.data.VoteKey;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
     private final Votiful plugin;
     private final StorageAgent<VoteKey, VoteValue> storageAgent;
+    private final VoteStatsAgent voteStatsAgent;
 
     public VoteHolder(Votiful plugin, String name) {
         super(name);
@@ -211,10 +213,17 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
 
         VoteSyncAgent voteSyncAgent = new VoteSyncAgent(this);
         addAgent(new SpigotRunnableAgent<>(voteSyncAgent, AsyncScheduler.get(plugin), 10));
+
+        voteStatsAgent = new VoteStatsAgent(this);
+        addAgent(new SpigotRunnableAgent<>(voteStatsAgent, AsyncScheduler.get(plugin), 10));
     }
 
     public StorageAgent<VoteKey, VoteValue> getStorageAgent() {
         return storageAgent;
+    }
+
+    public VoteStatsAgent getVoteStatsAgent() {
+        return voteStatsAgent;
     }
 
     public DataEntry<VoteKey, VoteValue> createEntry() {
