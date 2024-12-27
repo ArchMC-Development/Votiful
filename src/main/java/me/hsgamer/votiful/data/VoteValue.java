@@ -4,6 +4,7 @@ import com.vexsoftware.votifier.model.Vote;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -40,6 +41,10 @@ public class VoteValue {
 
     public UUID uuid() {
         return player().getUniqueId();
+    }
+
+    public Date date() {
+        return new Date(timestamp * 1000);
     }
 
     @Override
