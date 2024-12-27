@@ -33,11 +33,6 @@ public class VoteValue {
         return new VoteValue(serviceName, playerName, address, timestamp);
     }
 
-    public static VoteValue fromString(String string) {
-        String[] split = string.split(";", 4);
-        return new VoteValue(split[0], split[1], split[2], Long.parseLong(split[3]));
-    }
-
     public OfflinePlayer player() {
         //noinspection deprecation
         return Bukkit.getOfflinePlayer(playerName);
@@ -45,11 +40,6 @@ public class VoteValue {
 
     public UUID uuid() {
         return player().getUniqueId();
-    }
-
-    @Override
-    public String toString() {
-        return serviceName + ";" + playerName + ";" + address + ";" + timestamp;
     }
 
     @Override

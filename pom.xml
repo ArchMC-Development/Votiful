@@ -14,7 +14,7 @@
     <properties>
         <core.version>4.5.7</core.version>
         <minelib.version>1.2.5</minelib.version>
-        <topper.version>3.1.0</topper.version>
+        <topper.version>3.2.0</topper.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -123,7 +123,7 @@
         <!--suppress VulnerableLibrariesLocal -->
         <dependency>
             <groupId>me.hsgamer</groupId>
-            <artifactId>topper-agent-storage-simple</artifactId>
+            <artifactId>topper-agent-storage</artifactId>
             <version>${topper.version}</version>
         </dependency>
         <dependency>
@@ -133,7 +133,7 @@
         </dependency>
         <dependency>
             <groupId>me.hsgamer</groupId>
-            <artifactId>topper-spigot-agent-storage-simple</artifactId>
+            <artifactId>topper-spigot-storage-simple</artifactId>
             <version>${topper.version}</version>
         </dependency>
     </dependencies>

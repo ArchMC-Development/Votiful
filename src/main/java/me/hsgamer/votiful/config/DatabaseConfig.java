@@ -2,11 +2,11 @@ package me.hsgamer.votiful.config;
 
 import me.hsgamer.hscore.config.annotation.Comment;
 import me.hsgamer.hscore.config.annotation.ConfigPath;
-import me.hsgamer.topper.agent.storage.simple.setting.DatabaseSetting;
+import me.hsgamer.hscore.database.Setting;
 
-import java.util.Collections;
+import java.util.function.Consumer;
 
-public interface DatabaseConfig {
+public interface DatabaseConfig extends Consumer<Setting> {
     @ConfigPath("host")
     @Comment("The host of the database")
     default String getHost() {
@@ -43,7 +43,15 @@ public interface DatabaseConfig {
         return false;
     }
 
-    default DatabaseSetting toDatabaseSetting() {
-        return new DatabaseSetting(getHost(), getPort(), getDatabase(), getUsername(), getPassword(), isUseSSL(), Collections.emptyMap(), Collections.emptyMap());
+    @Override
+    default void accept(Setting setting) {
+        setting.setHost(getHost());
+        setting.setPort(getPort());
+        setting.setDatabaseName(getDatabase());
+        setting.setUsername(getUsername());
+        setting.setPassword(getPassword());
+        if (isUseSSL()) {
+            setting.setDriverProperty("useSSL", "true");
+        }
     }
 }

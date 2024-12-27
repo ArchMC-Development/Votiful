@@ -16,16 +16,6 @@ public class VoteKey {
         this(serverName, UUID.randomUUID());
     }
 
-    public static VoteKey fromString(String string) {
-        String[] split = string.split(";", 2);
-        return new VoteKey(split[0], UUID.fromString(split[1]));
-    }
-
-    @Override
-    public String toString() {
-        return serverName + ";" + id.toString();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
