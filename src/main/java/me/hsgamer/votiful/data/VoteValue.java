@@ -28,7 +28,7 @@ public class VoteValue {
         try {
             timestamp = Long.parseLong(vote.getTimeStamp());
         } catch (Exception e) {
-            timestamp = System.currentTimeMillis();
+            timestamp = System.currentTimeMillis() / 1000;
         }
         return new VoteValue(serviceName, playerName, address, timestamp);
     }
