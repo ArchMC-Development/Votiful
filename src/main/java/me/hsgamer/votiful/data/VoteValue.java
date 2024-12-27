@@ -29,7 +29,7 @@ public class VoteValue {
         try {
             timestamp = Long.parseLong(vote.getTimeStamp());
         } catch (Exception e) {
-            timestamp = System.currentTimeMillis() / 1000;
+            timestamp = System.currentTimeMillis();
         }
         return new VoteValue(serviceName, playerName, address, timestamp);
     }
@@ -44,7 +44,7 @@ public class VoteValue {
     }
 
     public Date date() {
-        return new Date(timestamp * 1000);
+        return new Date(timestamp);
     }
 
     @Override
