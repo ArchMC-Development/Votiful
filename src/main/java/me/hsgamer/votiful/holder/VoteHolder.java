@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
@@ -32,7 +33,7 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
         super(name);
         this.plugin = plugin;
 
-        storageAgent = new StorageAgent<>(plugin.getLogger(), this, plugin.get(VoteManager.class).getSupplier().getStorage(name, new DataStorageSetting<VoteKey, VoteValue>() {
+        storageAgent = new StorageAgent<VoteKey, VoteValue>(plugin.getLogger(), this, plugin.get(VoteManager.class).getSupplier().getStorage(name, new DataStorageSetting<VoteKey, VoteValue>() {
             @Override
             public FlatEntryConverter<VoteKey, VoteValue> getFlatEntryConverter() {
                 return new FlatEntryConverter<VoteKey, VoteValue>() {
@@ -208,7 +209,15 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
                     }
                 };
             }
-        }));
+        })) {
+            @Override
+            public void onUpdate(DataEntry<VoteKey, VoteValue> entry) {
+                VoteKey key = entry.getKey();
+                if (Objects.equals(key.serverName, plugin.get(MainConfig.class).getServerName())) {
+                    super.onUpdate(entry);
+                }
+            }
+        };
         addAgent(new SpigotRunnableAgent<>(storageAgent, AsyncScheduler.get(plugin), 10));
 
         VoteSyncAgent voteSyncAgent = new VoteSyncAgent(this);
