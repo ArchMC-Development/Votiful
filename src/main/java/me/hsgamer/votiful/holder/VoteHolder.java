@@ -15,7 +15,7 @@ import me.hsgamer.votiful.agent.VoteSyncAgent;
 import me.hsgamer.votiful.config.MainConfig;
 import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteValue;
-import me.hsgamer.votiful.manager.VoteManager;
+import me.hsgamer.votiful.manager.StorageManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +33,7 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
         super(name);
         this.plugin = plugin;
 
-        storageAgent = new StorageAgent<VoteKey, VoteValue>(plugin.getLogger(), this, plugin.get(VoteManager.class).getSupplier().getStorage(name, new DataStorageSetting<VoteKey, VoteValue>() {
+        storageAgent = new StorageAgent<VoteKey, VoteValue>(plugin.getLogger(), this, plugin.get(StorageManager.class).buildStorage(name, new DataStorageSetting<VoteKey, VoteValue>() {
             @Override
             public FlatEntryConverter<VoteKey, VoteValue> getFlatEntryConverter() {
                 return new FlatEntryConverter<VoteKey, VoteValue>() {
