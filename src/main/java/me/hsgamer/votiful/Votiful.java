@@ -23,7 +23,7 @@ public final class Votiful extends BasePlugin {
                 new VoteManager(this),
 
                 new VoteListener(this),
-                new CommandComponent(this, new StressVoteCommand(this))
+                new CommandComponent(this, new StressVoteCommand())
         );
     }
 }

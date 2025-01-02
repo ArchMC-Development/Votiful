@@ -1,21 +1,19 @@
 package me.hsgamer.votiful.command;
 
+import com.vexsoftware.votifier.NuVotifierBukkit;
 import com.vexsoftware.votifier.model.Vote;
-import com.vexsoftware.votifier.model.VotifierEvent;
-import me.hsgamer.votiful.Votiful;
-import me.hsgamer.votiful.listener.VoteListener;
+import com.vexsoftware.votifier.net.VotifierSession;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
 import java.util.stream.IntStream;
 
 public class StressVoteCommand extends Command {
-    private final Votiful plugin;
-
-    public StressVoteCommand(Votiful plugin) {
+    public StressVoteCommand() {
         super("stressvote", "Stress Vote", "/stressvote <name> [amount]", Collections.emptyList());
-        this.plugin = plugin;
+        setPermission("votiful.stress");
     }
 
     @Override
@@ -34,11 +32,11 @@ public class StressVoteCommand extends Command {
                 return false;
             }
         }
-        VoteListener listener = plugin.get(VoteListener.class);
+        NuVotifierBukkit nuVotifierBukkit = JavaPlugin.getPlugin(NuVotifierBukkit.class);
         IntStream.rangeClosed(1, amount)
                 .parallel()
                 .mapToObj(i -> new Vote("TestVote", name, "127.0.0.1", Long.toString(System.currentTimeMillis(), 10)))
-                .forEach(vote -> listener.onVote(new VotifierEvent(vote)));
+                .forEach(vote -> nuVotifierBukkit.onVoteReceived(vote, VotifierSession.ProtocolVersion.TEST, "localhost.test"));
         sender.sendMessage("Sent " + amount + " vote(s) to " + name);
         return true;
     }
