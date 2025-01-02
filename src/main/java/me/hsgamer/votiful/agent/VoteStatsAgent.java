@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class VoteStatsAgent implements Agent<VoteKey, VoteValue>, Runnable {
     private final VoteHolder holder;
-    private final AtomicBoolean needUpdate = new AtomicBoolean(true);
+    private final AtomicBoolean needUpdate = new AtomicBoolean(false);
     private final AtomicReference<VoteTableSnapshot> voteTableSnapshotRef = new AtomicReference<>(new VoteTableSnapshot());
 
     public VoteStatsAgent(VoteHolder holder) {
