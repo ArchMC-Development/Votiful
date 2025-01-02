@@ -46,7 +46,7 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
         };
         addAgent(new SpigotRunnableAgent<>(storageAgent, AsyncScheduler.get(plugin), 10));
 
-        VoteSyncAgent voteSyncAgent = new VoteSyncAgent(this);
+        VoteSyncAgent voteSyncAgent = new VoteSyncAgent(plugin, this);
         addAgent(new SpigotRunnableAgent<>(voteSyncAgent, AsyncScheduler.get(plugin), 10));
 
         voteStatsAgent = new VoteStatsAgent(this);
