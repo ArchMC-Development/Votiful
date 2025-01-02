@@ -3,6 +3,8 @@ package me.hsgamer.votiful.command;
 import com.vexsoftware.votifier.NuVotifierBukkit;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.net.VotifierSession;
+import io.github.projectunified.minelib.scheduler.async.AsyncScheduler;
+import me.hsgamer.votiful.Votiful;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,9 +13,12 @@ import java.util.Collections;
 import java.util.stream.IntStream;
 
 public class StressVoteCommand extends Command {
-    public StressVoteCommand() {
+    private final Votiful plugin;
+
+    public StressVoteCommand(Votiful plugin) {
         super("stressvote", "Stress Vote", "/stressvote <name> [amount]", Collections.emptyList());
         setPermission("votiful.stress");
+        this.plugin = plugin;
     }
 
     @Override
@@ -32,12 +37,15 @@ public class StressVoteCommand extends Command {
                 return false;
             }
         }
+        int finalAmount = amount;
         NuVotifierBukkit nuVotifierBukkit = JavaPlugin.getPlugin(NuVotifierBukkit.class);
-        IntStream.rangeClosed(1, amount)
-                .parallel()
-                .mapToObj(i -> new Vote("TestVote", name, "127.0.0.1", Long.toString(System.currentTimeMillis(), 10)))
-                .forEach(vote -> nuVotifierBukkit.onVoteReceived(vote, VotifierSession.ProtocolVersion.TEST, "localhost.test"));
-        sender.sendMessage("Sent " + amount + " vote(s) to " + name);
+        AsyncScheduler.get(plugin).run(() -> {
+            IntStream.rangeClosed(1, finalAmount)
+                    .parallel()
+                    .mapToObj(i -> new Vote("TestVote", name, "127.0.0.1", Long.toString(System.currentTimeMillis(), 10)))
+                    .forEach(vote -> nuVotifierBukkit.onVoteReceived(vote, VotifierSession.ProtocolVersion.TEST, "localhost.test"));
+            sender.sendMessage("Sent " + finalAmount + " vote(s) to " + name);
+        });
         return true;
     }
 }
