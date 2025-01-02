@@ -58,4 +58,14 @@ public class VoteValue {
     public int hashCode() {
         return Objects.hash(serviceName, playerName, address, timestamp);
     }
+
+    @Override
+    public String toString() {
+        return "VoteValue{" +
+                "serviceName='" + serviceName + '\'' +
+                ", playerName='" + playerName + '\'' +
+                ", address='" + address + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

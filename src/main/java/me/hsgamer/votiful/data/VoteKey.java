@@ -27,4 +27,12 @@ public class VoteKey {
     public int hashCode() {
         return Objects.hash(serverName, id);
     }
+
+    @Override
+    public String toString() {
+        return "VoteKey{" +
+                "serverName='" + serverName + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

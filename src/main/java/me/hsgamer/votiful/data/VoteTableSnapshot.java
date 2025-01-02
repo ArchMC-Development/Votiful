@@ -1,13 +1,12 @@
-package me.hsgamer.votiful.config;
+package me.hsgamer.votiful.data;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import me.hsgamer.topper.core.DataEntry;
-import me.hsgamer.votiful.data.VoteKey;
-import me.hsgamer.votiful.data.VoteValue;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class VoteTableSnapshot {
     public final Table<String, String, Integer> voteTable; // row: player, column: server
@@ -58,5 +57,24 @@ public class VoteTableSnapshot {
 
     public int getPlayerVoteCount(String playerName) {
         return getPlayerVote(playerName).values().stream().mapToInt(Integer::intValue).sum();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        VoteTableSnapshot that = (VoteTableSnapshot) o;
+        return Objects.equals(voteTable, that.voteTable);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(voteTable);
+    }
+
+    @Override
+    public String toString() {
+        return "VoteTableSnapshot{" +
+                "voteTable=" + voteTable +
+                '}';
     }
 }

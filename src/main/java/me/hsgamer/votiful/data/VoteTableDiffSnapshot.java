@@ -1,6 +1,7 @@
-package me.hsgamer.votiful.config;
+package me.hsgamer.votiful.data;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class VoteTableDiffSnapshot {
     public final VoteTableSnapshot oldSnapshot;
@@ -34,5 +35,26 @@ public class VoteTableDiffSnapshot {
         this.oldSnapshot = oldSnapshot;
         this.newSnapshot = newSnapshot;
         this.timestamp = newTimestamp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        VoteTableDiffSnapshot that = (VoteTableDiffSnapshot) o;
+        return timestamp == that.timestamp && Objects.equals(oldSnapshot, that.oldSnapshot) && Objects.equals(newSnapshot, that.newSnapshot);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(oldSnapshot, newSnapshot, timestamp);
+    }
+
+    @Override
+    public String toString() {
+        return "VoteTableDiffSnapshot{" +
+                "oldSnapshot=" + oldSnapshot +
+                ", newSnapshot=" + newSnapshot +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

@@ -2,7 +2,8 @@ package me.hsgamer.votiful.agent;
 
 import me.hsgamer.topper.agent.core.Agent;
 import me.hsgamer.topper.core.DataEntry;
-import me.hsgamer.votiful.config.VoteTableSnapshot;
+import me.hsgamer.votiful.data.VoteTableDiffSnapshot;
+import me.hsgamer.votiful.data.VoteTableSnapshot;
 import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteValue;
 import me.hsgamer.votiful.holder.VoteHolder;
@@ -19,30 +20,28 @@ public class VoteStatsAgent implements Agent<VoteKey, VoteValue>, Runnable {
         this.holder = holder;
     }
 
-    private void updateStats() {
-        VoteTableSnapshot voteTableSnapshot = new VoteTableSnapshot(holder.getEntryMap());
-        voteTableSnapshotRef.set(voteTableSnapshot);
+    private void updateStats(boolean triggerUpdate) {
+        VoteTableSnapshot oldSnapshot = voteTableSnapshotRef.get();
+        VoteTableSnapshot newSnapshot = new VoteTableSnapshot(holder.getEntryMap());
+        voteTableSnapshotRef.set(newSnapshot);
+        if (triggerUpdate) {
+            holder.getVoteEventAgent().triggerUpdate(new VoteTableDiffSnapshot(oldSnapshot, newSnapshot));
+        }
     }
 
     @Override
     public void run() {
         if (!needUpdate.getAndSet(false)) return;
-        updateStats();
-        holder.getVoteEventAgent().triggerUpdate();
+        updateStats(true);
     }
 
     @Override
     public void start() {
-        updateStats();
+        updateStats(false);
     }
 
     public VoteTableSnapshot getVoteTableSnapshot() {
         return voteTableSnapshotRef.get();
-    }
-
-    @Override
-    public void onCreate(DataEntry<VoteKey, VoteValue> entry) {
-        needUpdate.lazySet(true);
     }
 
     @Override
