@@ -56,6 +56,11 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
         addAgent(new SpigotRunnableAgent<>(voteEventAgent, AsyncScheduler.get(plugin), 10));
     }
 
+    @Override
+    protected VoteValue getDefaultValue() {
+        return VoteValue.EMPTY;
+    }
+
     public StorageAgent<VoteKey, VoteValue> getStorageAgent() {
         return storageAgent;
     }
