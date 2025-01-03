@@ -1,38 +1,36 @@
 package me.hsgamer.votiful.data;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class VoteKey {
     public final String serverName;
-    public final UUID id;
+    public final String playerName;
+    public final String serviceName;
 
-    public VoteKey(String serverName, UUID id) {
+    public VoteKey(String serverName, String playerName, String serviceName) {
         this.serverName = serverName;
-        this.id = id;
-    }
-
-    public VoteKey(String serverName) {
-        this(serverName, UUID.randomUUID());
+        this.playerName = playerName;
+        this.serviceName = serviceName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        VoteKey voteKey = (VoteKey) o;
-        return Objects.equals(serverName, voteKey.serverName) && Objects.equals(id, voteKey.id);
+        VoteKey key = (VoteKey) o;
+        return Objects.equals(serverName, key.serverName) && Objects.equals(playerName, key.playerName) && Objects.equals(serviceName, key.serviceName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serverName, id);
+        return Objects.hash(serverName, playerName, serviceName);
     }
 
     @Override
     public String toString() {
         return "VoteKey{" +
                 "serverName='" + serverName + '\'' +
-                ", id=" + id +
+                ", playerName='" + playerName + '\'' +
+                ", serviceName='" + serviceName + '\'' +
                 '}';
     }
 }

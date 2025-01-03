@@ -2,9 +2,9 @@ package me.hsgamer.votiful.agent;
 
 import me.hsgamer.topper.agent.core.Agent;
 import me.hsgamer.topper.core.DataEntry;
+import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteTableDiffSnapshot;
 import me.hsgamer.votiful.data.VoteTableSnapshot;
-import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteValue;
 import me.hsgamer.votiful.holder.VoteHolder;
 

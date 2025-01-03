@@ -1,71 +1,43 @@
 package me.hsgamer.votiful.data;
 
-import com.vexsoftware.votifier.model.Vote;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-
-import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 public class VoteValue {
-    public final String serviceName;
-    public final String playerName;
-    public final String address;
-    public final long timestamp;
+    public static final VoteValue EMPTY = new VoteValue(0, 0);
 
-    public VoteValue(String serviceName, String playerName, String address, long timestamp) {
-        this.serviceName = serviceName;
-        this.playerName = playerName;
-        this.address = address;
-        this.timestamp = timestamp;
+    public final int vote;
+    public final long lastVoteTimestamp;
+
+    public VoteValue(int vote, long lastVoteTimestamp) {
+        this.vote = vote;
+        this.lastVoteTimestamp = lastVoteTimestamp;
     }
 
-    public static VoteValue fromVotifier(Vote vote) {
-        String serviceName = vote.getServiceName();
-        String playerName = vote.getUsername();
-        String address = vote.getAddress();
-        long timestamp;
-        try {
-            timestamp = Long.parseLong(vote.getTimeStamp());
-        } catch (Exception e) {
-            timestamp = System.currentTimeMillis();
-        }
-        return new VoteValue(serviceName, playerName, address, timestamp);
+    public VoteValue addVote(int vote, long timestamp) {
+        return new VoteValue(this.vote + vote, timestamp);
     }
 
-    public OfflinePlayer player() {
-        //noinspection deprecation
-        return Bukkit.getOfflinePlayer(playerName);
-    }
-
-    public UUID uuid() {
-        return player().getUniqueId();
-    }
-
-    public Date date() {
-        return new Date(timestamp);
+    public VoteValue addVote(long timestamp) {
+        return addVote(1, timestamp);
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         VoteValue voteValue = (VoteValue) o;
-        return timestamp == voteValue.timestamp && Objects.equals(serviceName, voteValue.serviceName) && Objects.equals(playerName, voteValue.playerName) && Objects.equals(address, voteValue.address);
+        return vote == voteValue.vote && lastVoteTimestamp == voteValue.lastVoteTimestamp;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serviceName, playerName, address, timestamp);
+        return Objects.hash(vote, lastVoteTimestamp);
     }
 
     @Override
     public String toString() {
         return "VoteValue{" +
-                "serviceName='" + serviceName + '\'' +
-                ", playerName='" + playerName + '\'' +
-                ", address='" + address + '\'' +
-                ", timestamp=" + timestamp +
+                "vote=" + vote +
+                ", lastVoteTimestamp=" + lastVoteTimestamp +
                 '}';
     }
 }

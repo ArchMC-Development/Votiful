@@ -14,6 +14,7 @@ import me.hsgamer.votiful.agent.VoteEventAgent;
 import me.hsgamer.votiful.agent.VoteStatsAgent;
 import me.hsgamer.votiful.agent.VoteSyncAgent;
 import me.hsgamer.votiful.config.MainConfig;
+import me.hsgamer.votiful.data.Vote;
 import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteValue;
 import me.hsgamer.votiful.manager.StorageManager;
@@ -23,7 +24,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
     private final Votiful plugin;
@@ -68,8 +68,9 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
         return voteEventAgent;
     }
 
-    public DataEntry<VoteKey, VoteValue> createEntry() {
-        return getOrCreateEntry(new VoteKey(plugin.get(MainConfig.class).getServerName()));
+    public void addVote(Vote vote) {
+        VoteKey key = new VoteKey(plugin.get(MainConfig.class).getServerName(), vote.playerName, vote.serviceName);
+        getOrCreateEntry(key).setValue(entry -> entry.addVote(vote.timestamp));
     }
 
     private static class VoteDataStorageSetting implements DataStorageSetting<VoteKey, VoteValue> {
@@ -78,38 +79,34 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
             return new FlatEntryConverter<VoteKey, VoteValue>() {
                 @Override
                 public VoteKey toKey(String key) {
-                    String[] split = key.split(";", 2);
-                    if (split.length != 2) {
+                    String[] split = key.split(";", 3);
+                    if (split.length != 3) {
                         return null;
                     }
-                    try {
-                        return new VoteKey(split[0], UUID.fromString(split[1]));
-                    } catch (Exception e) {
-                        return null;
-                    }
+                    return new VoteKey(split[0], split[1], split[2]);
                 }
 
                 @Override
                 public String toRawKey(VoteKey key) {
-                    return key.serverName + ";" + key.id.toString();
+                    return String.join(";", key.serverName, key.playerName, key.serviceName);
                 }
 
                 @Override
                 public VoteValue toValue(String value) {
-                    String[] split = value.split(";", 4);
-                    if (split.length != 4) {
+                    String[] split = value.split(";", 2);
+                    if (split.length != 2) {
                         return null;
                     }
                     try {
-                        return new VoteValue(split[0], split[1], split[2], Long.parseLong(split[3]));
-                    } catch (Exception e) {
+                        return new VoteValue(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+                    } catch (NumberFormatException e) {
                         return null;
                     }
                 }
 
                 @Override
                 public String toRawValue(VoteValue object) {
-                    return object.serviceName + ";" + object.playerName + ";" + object.address + ";" + object.timestamp;
+                    return object.vote + ";" + object.lastVoteTimestamp;
                 }
             };
         }
@@ -120,34 +117,24 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
                 @Override
                 public VoteKey toKey(Map<String, Object> map) {
                     Object serverName = map.get("serverName");
-                    Object id = map.get("id");
-                    if (serverName == null || id == null) {
+                    Object playerName = map.get("playerName");
+                    Object serviceName = map.get("serviceName");
+                    if (serverName == null || playerName == null || serviceName == null) {
                         return null;
                     }
-                    try {
-                        return new VoteKey(serverName.toString(), UUID.fromString(id.toString()));
-                    } catch (Exception e) {
-                        return null;
-                    }
+                    return new VoteKey(serverName.toString(), playerName.toString(), serviceName.toString());
                 }
 
                 @Override
                 public VoteValue toValue(Map<String, Object> map) {
-                    Object serviceName = map.get("serviceName");
-                    Object playerName = map.get("playerName");
-                    Object address = map.get("address");
-                    Object timestamp = map.get("timestamp");
-                    if (serviceName == null || playerName == null || address == null || timestamp == null) {
+                    Object vote = map.get("vote");
+                    Object lastVoteTimestamp = map.get("lastVoteTimestamp");
+                    if (vote == null || lastVoteTimestamp == null) {
                         return null;
                     }
                     try {
-                        return new VoteValue(
-                                serviceName.toString(),
-                                playerName.toString(),
-                                address.toString(),
-                                Long.parseLong(timestamp.toString())
-                        );
-                    } catch (Exception e) {
+                        return new VoteValue(Integer.parseInt(vote.toString()), Long.parseLong(lastVoteTimestamp.toString()));
+                    } catch (NumberFormatException e) {
                         return null;
                     }
                 }
@@ -156,17 +143,16 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
                 public Map<String, Object> toRawKey(VoteKey key) {
                     Map<String, Object> map = new HashMap<>();
                     map.put("serverName", key.serverName);
-                    map.put("id", key.id.toString());
+                    map.put("playerName", key.playerName);
+                    map.put("serviceName", key.serviceName);
                     return map;
                 }
 
                 @Override
                 public Map<String, Object> toRawValue(VoteValue value) {
                     Map<String, Object> map = new HashMap<>();
-                    map.put("serviceName", value.serviceName);
-                    map.put("playerName", value.playerName);
-                    map.put("address", value.address);
-                    map.put("timestamp", value.timestamp);
+                    map.put("vote", value.vote);
+                    map.put("lastVoteTimestamp", value.lastVoteTimestamp);
                     return map;
                 }
             };
@@ -179,35 +165,33 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
                 public String[] getKeyColumns() {
                     return new String[]{
                             "server_name",
-                            "id"
+                            "player_name",
+                            "service_name"
                     };
                 }
 
                 @Override
                 public String[] getValueColumns() {
                     return new String[]{
-                            "service_name",
-                            "player_name",
-                            "address",
-                            "timestamp"
+                            "vote",
+                            "last_vote_timestamp"
                     };
                 }
 
                 @Override
                 public String[] getKeyColumnDefinitions() {
                     return new String[]{
-                            "`server_name` VARCHAR(36) NOT NULL",
-                            "`id` VARCHAR(36) NOT NULL"
+                            "`server_name` VARCHAR(255) NOT NULL",
+                            "`player_name` VARCHAR(255) NOT NULL",
+                            "`service_name` VARCHAR(255) NOT NULL"
                     };
                 }
 
                 @Override
                 public String[] getValueColumnDefinitions() {
                     return new String[]{
-                            "`service_name` VARCHAR(255) NOT NULL",
-                            "`player_name` VARCHAR(255) NOT NULL",
-                            "`address` VARCHAR(255) NOT NULL",
-                            "`timestamp` BIGINT NOT NULL"
+                            "`vote` INT NOT NULL",
+                            "`last_vote_timestamp` BIGINT NOT NULL"
                     };
                 }
 
@@ -215,17 +199,16 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
                 public Object[] toKeyQueryValues(VoteKey key) {
                     return new Object[]{
                             key.serverName,
-                            key.id.toString()
+                            key.playerName,
+                            key.serviceName
                     };
                 }
 
                 @Override
                 public Object[] toValueQueryValues(VoteValue value) {
                     return new Object[]{
-                            value.serviceName,
-                            value.playerName,
-                            value.address,
-                            value.timestamp
+                            value.vote,
+                            value.lastVoteTimestamp
                     };
                 }
 
@@ -233,17 +216,16 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
                 public VoteKey getKey(ResultSet resultSet) throws SQLException {
                     return new VoteKey(
                             resultSet.getString("server_name"),
-                            UUID.fromString(resultSet.getString("id"))
+                            resultSet.getString("player_name"),
+                            resultSet.getString("service_name")
                     );
                 }
 
                 @Override
                 public VoteValue getValue(ResultSet resultSet) throws SQLException {
                     return new VoteValue(
-                            resultSet.getString("service_name"),
-                            resultSet.getString("player_name"),
-                            resultSet.getString("address"),
-                            resultSet.getLong("timestamp")
+                            resultSet.getInt("vote"),
+                            resultSet.getLong("last_vote_timestamp")
                     );
                 }
             };

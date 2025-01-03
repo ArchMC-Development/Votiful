@@ -24,16 +24,13 @@ public class VoteTableSnapshot {
         for (DataEntry<VoteKey, VoteValue> entry : entryMap.values()) {
             VoteKey key = entry.getKey();
             VoteValue value = entry.getValue();
-            String serverName = key.serverName;
-            String playerName = value.playerName;
 
-            Integer voteCount = table.get(playerName, serverName);
+            Integer voteCount = table.get(key.playerName, key.serverName);
             if (voteCount == null) {
-                voteCount = 1;
-            } else {
-                voteCount++;
+                voteCount = 0;
             }
-            table.put(playerName, serverName, voteCount);
+            voteCount += value.vote;
+            table.put(key.playerName, key.serverName, voteCount);
         }
         this.voteTable = ImmutableTable.copyOf(table);
     }
