@@ -103,7 +103,7 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
                         return null;
                     }
                     try {
-                        return new VoteValue(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+                        return new VoteValue(Integer.parseInt(split[0]), Long.parseLong(split[1]));
                     } catch (NumberFormatException e) {
                         return null;
                     }
