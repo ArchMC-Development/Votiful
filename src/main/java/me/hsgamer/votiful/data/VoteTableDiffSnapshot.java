@@ -15,26 +15,36 @@ public class VoteTableDiffSnapshot {
     }
 
     public VoteTableDiffSnapshot(Collection<VoteTableDiffSnapshot> snapshots) {
-        VoteTableSnapshot oldSnapshot = null;
-        VoteTableSnapshot newSnapshot = null;
-        long oldTimestamp = System.currentTimeMillis();
-        long newTimestamp = 0;
-        for (VoteTableDiffSnapshot snapshot : snapshots) {
-            if (snapshot.timestamp < oldTimestamp) {
-                oldSnapshot = snapshot.oldSnapshot;
-                oldTimestamp = snapshot.timestamp;
-            }
-            if (snapshot.timestamp > newTimestamp) {
-                newSnapshot = snapshot.newSnapshot;
-                newTimestamp = snapshot.timestamp;
-            }
+        if (snapshots.isEmpty()) {
+            throw new IllegalArgumentException("Empty snapshots");
         }
-        if (oldSnapshot == null || newSnapshot == null) {
-            throw new IllegalArgumentException("Invalid snapshots");
+        if (snapshots.size() == 1) {
+            VoteTableDiffSnapshot snapshot = snapshots.iterator().next();
+            this.oldSnapshot = snapshot.oldSnapshot;
+            this.newSnapshot = snapshot.newSnapshot;
+            this.timestamp = snapshot.timestamp;
+        } else {
+            VoteTableSnapshot oldSnapshot = null;
+            VoteTableSnapshot newSnapshot = null;
+            long oldTimestamp = System.currentTimeMillis();
+            long newTimestamp = 0;
+            for (VoteTableDiffSnapshot snapshot : snapshots) {
+                if (snapshot.timestamp < oldTimestamp) {
+                    oldSnapshot = snapshot.oldSnapshot;
+                    oldTimestamp = snapshot.timestamp;
+                }
+                if (snapshot.timestamp > newTimestamp) {
+                    newSnapshot = snapshot.newSnapshot;
+                    newTimestamp = snapshot.timestamp;
+                }
+            }
+            if (oldSnapshot == null || newSnapshot == null) {
+                throw new IllegalArgumentException("Invalid snapshots");
+            }
+            this.oldSnapshot = oldSnapshot;
+            this.newSnapshot = newSnapshot;
+            this.timestamp = newTimestamp;
         }
-        this.oldSnapshot = oldSnapshot;
-        this.newSnapshot = newSnapshot;
-        this.timestamp = newTimestamp;
     }
 
     @Override
