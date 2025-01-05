@@ -1,6 +1,7 @@
 package me.hsgamer.votiful.agent;
 
 import me.hsgamer.topper.agent.core.Agent;
+import me.hsgamer.topper.agent.core.DataEntryAgent;
 import me.hsgamer.topper.core.DataEntry;
 import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteTableDiffSnapshot;
@@ -11,7 +12,7 @@ import me.hsgamer.votiful.holder.VoteHolder;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class VoteStatsAgent implements Agent<VoteKey, VoteValue>, Runnable {
+public class VoteStatsAgent implements Agent, DataEntryAgent<VoteKey, VoteValue>, Runnable {
     private final VoteHolder holder;
     private final AtomicBoolean needUpdate = new AtomicBoolean(false);
     private final AtomicReference<VoteTableSnapshot> voteTableSnapshotRef = new AtomicReference<>(new VoteTableSnapshot());
@@ -45,7 +46,7 @@ public class VoteStatsAgent implements Agent<VoteKey, VoteValue>, Runnable {
     }
 
     @Override
-    public void onUpdate(DataEntry<VoteKey, VoteValue> entry) {
+    public void onUpdate(DataEntry<VoteKey, VoteValue> entry, VoteValue oldValue) {
         needUpdate.lazySet(true);
     }
 

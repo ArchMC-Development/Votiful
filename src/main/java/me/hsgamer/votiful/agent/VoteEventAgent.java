@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class VoteEventAgent implements Agent<VoteKey, VoteValue>, Runnable {
+public class VoteEventAgent implements Agent, Runnable {
     private final Queue<VoteTableDiffSnapshot> voteTableDiffSnapshotQueue = new ConcurrentLinkedQueue<>();
 
     @Override

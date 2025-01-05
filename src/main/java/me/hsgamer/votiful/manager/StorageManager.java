@@ -36,7 +36,7 @@ public class StorageManager implements Loadable {
     @Override
     public void enable() {
         DataStorageBuilder builder = new DataStorageBuilder();
-        SpigotDataStorageBuilder.register(plugin, builder);
+        SpigotDataStorageBuilder.register(builder);
 
         supplier = builder.buildSupplier(
                 plugin.get(MainConfig.class).getStorageType(),

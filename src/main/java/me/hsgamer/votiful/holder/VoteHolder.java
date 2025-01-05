@@ -37,23 +37,27 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
 
         storageAgent = new StorageAgent<VoteKey, VoteValue>(plugin.getLogger(), this, plugin.get(StorageManager.class).buildStorage(name, new VoteDataStorageSetting())) {
             @Override
-            public void onUpdate(DataEntry<VoteKey, VoteValue> entry) {
+            public void onUpdate(DataEntry<VoteKey, VoteValue> entry, VoteValue oldValue) {
                 VoteKey key = entry.getKey();
                 if (Objects.equals(key.serverName, plugin.get(MainConfig.class).getServerName())) {
-                    super.onUpdate(entry);
+                    super.onUpdate(entry, oldValue);
                 }
             }
         };
-        addAgent(new SpigotRunnableAgent<>(storageAgent, AsyncScheduler.get(plugin), 10));
+        addAgent(storageAgent);
+        addEntryAgent(storageAgent);
+        addAgent(new SpigotRunnableAgent(storageAgent, AsyncScheduler.get(plugin), 10));
 
         VoteSyncAgent voteSyncAgent = new VoteSyncAgent(plugin, this);
-        addAgent(new SpigotRunnableAgent<>(voteSyncAgent, AsyncScheduler.get(plugin), 10));
+        addAgent(new SpigotRunnableAgent(voteSyncAgent, AsyncScheduler.get(plugin), 10));
 
         voteStatsAgent = new VoteStatsAgent(this);
-        addAgent(new SpigotRunnableAgent<>(voteStatsAgent, AsyncScheduler.get(plugin), 10));
+        addAgent(voteStatsAgent);
+        addEntryAgent(voteStatsAgent);
+        addAgent(new SpigotRunnableAgent(voteStatsAgent, AsyncScheduler.get(plugin), 10));
 
         voteEventAgent = new VoteEventAgent();
-        addAgent(new SpigotRunnableAgent<>(voteEventAgent, AsyncScheduler.get(plugin), 10));
+        addAgent(new SpigotRunnableAgent(voteEventAgent, AsyncScheduler.get(plugin), 10));
     }
 
     @Override

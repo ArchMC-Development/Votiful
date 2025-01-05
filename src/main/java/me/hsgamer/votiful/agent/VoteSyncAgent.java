@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class VoteSyncAgent implements Agent<VoteKey, VoteValue>, Runnable {
+public class VoteSyncAgent implements Agent, Runnable {
     private final Votiful plugin;
     private final VoteHolder holder;
 
