@@ -1,9 +1,7 @@
 package me.hsgamer.votiful.agent;
 
 import me.hsgamer.topper.agent.core.Agent;
-import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteTableDiffSnapshot;
-import me.hsgamer.votiful.data.VoteValue;
 
 import java.util.ArrayList;
 import java.util.List;
