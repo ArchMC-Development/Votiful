@@ -6,7 +6,9 @@ nuvotifier = "2.7.2"
 spigot = "1.13.2-R0.1-SNAPSHOT"
 
 [libraries]
-nuvotifier = { module = "com.github.NuVotifier.NuVotifier:nuvotifier-bukkit", version.ref = "nuvotifier" }
+nuvotifier-api = { module = "com.github.NuVotifier.NuVotifier:nuvotifier-api", version.ref = "nuvotifier" }
+nuvotifier-common = { module = "com.github.NuVotifier.NuVotifier:nuvotifier-common", version.ref = "nuvotifier" }
+nuvotifier-bukkit = { module = "com.github.NuVotifier.NuVotifier:nuvotifier-bukkit", version.ref = "nuvotifier" }
 minelib-plugin-base = { module = "io.github.projectunified:minelib-plugin-base", version.ref = "minelib" }
 minelib-plugin-command = { module = "io.github.projectunified:minelib-plugin-command", version.ref = "minelib" }
 minelib-plugin-listener = { module = "io.github.projectunified:minelib-plugin-listener", version.ref = "minelib" }
@@ -24,3 +26,4 @@ spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 topper = ["topper-agent-holder", "topper-agent-storage", "topper-core", "topper-spigot-agent-runnable", "topper-spigot-storage-simple"]
 minelib = ["minelib-plugin-base", "minelib-plugin-command", "minelib-plugin-listener", "minelib-scheduler-async"]
 hscore = ["hscore-bukkit-config", "hscore-config-proxy"]
+nuvotifier = ["nuvotifier-api", "nuvotifier-common", "nuvotifier-bukkit"]
