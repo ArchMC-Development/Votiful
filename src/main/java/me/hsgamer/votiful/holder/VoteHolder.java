@@ -35,29 +35,33 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
         super(name);
         this.plugin = plugin;
 
+        MainConfig mainConfig = plugin.get(MainConfig.class);
+
         storageAgent = new StorageAgent<VoteKey, VoteValue>(plugin.getLogger(), this, plugin.get(StorageManager.class).buildStorage(name, new VoteDataStorageSetting())) {
             @Override
             public void onUpdate(DataEntry<VoteKey, VoteValue> entry, VoteValue oldValue) {
                 VoteKey key = entry.getKey();
-                if (Objects.equals(key.serverName, plugin.get(MainConfig.class).getServerName())) {
+                if (Objects.equals(key.serverName, mainConfig.getServerName())) {
                     super.onUpdate(entry, oldValue);
                 }
             }
         };
+        storageAgent.setMaxEntryPerCall(mainConfig.getTasksSaveEntryPerCall());
         addAgent(storageAgent);
         addEntryAgent(storageAgent);
-        addAgent(new SpigotRunnableAgent(storageAgent, AsyncScheduler.get(plugin), 10));
+        addAgent(new SpigotRunnableAgent(storageAgent, AsyncScheduler.get(plugin), mainConfig.getTasksSaveInterval()));
 
-        VoteSyncAgent voteSyncAgent = new VoteSyncAgent(plugin, this);
-        addAgent(new SpigotRunnableAgent(voteSyncAgent, AsyncScheduler.get(plugin), 10));
+        if (mainConfig.isTasksSyncEnable()) {
+            addAgent(new SpigotRunnableAgent(new VoteSyncAgent(plugin, this), AsyncScheduler.get(plugin), mainConfig.getTasksSyncInterval()));
+        }
 
         voteStatsAgent = new VoteStatsAgent(this);
         addAgent(voteStatsAgent);
         addEntryAgent(voteStatsAgent);
-        addAgent(new SpigotRunnableAgent(voteStatsAgent, AsyncScheduler.get(plugin), 10));
+        addAgent(new SpigotRunnableAgent(voteStatsAgent, AsyncScheduler.get(plugin), mainConfig.getTasksStatsInterval()));
 
         voteEventAgent = new VoteEventAgent();
-        addAgent(new SpigotRunnableAgent(voteEventAgent, AsyncScheduler.get(plugin), 10));
+        addAgent(new SpigotRunnableAgent(voteEventAgent, AsyncScheduler.get(plugin), mainConfig.getTasksEventInterval()));
     }
 
     @Override

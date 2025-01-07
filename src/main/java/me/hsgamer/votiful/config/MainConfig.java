@@ -17,4 +17,34 @@ public interface MainConfig {
     default String getStorageType() {
         return "FLAT";
     }
+
+    @ConfigPath({"tasks", "save", "interval"})
+    default long getTasksSaveInterval() {
+        return 10L;
+    }
+
+    @ConfigPath({"tasks", "save", "entry-per-call"})
+    default int getTasksSaveEntryPerCall() {
+        return 10;
+    }
+
+    @ConfigPath({"tasks", "sync", "enable"})
+    default boolean isTasksSyncEnable() {
+        return false;
+    }
+
+    @ConfigPath({"tasks", "sync", "interval"})
+    default long getTasksSyncInterval() {
+        return 10L;
+    }
+
+    @ConfigPath({"tasks", "stats", "interval"})
+    default long getTasksStatsInterval() {
+        return 10L;
+    }
+
+    @ConfigPath({"tasks", "event", "interval"})
+    default long getTasksEventInterval() {
+        return 10L;
+    }
 }
