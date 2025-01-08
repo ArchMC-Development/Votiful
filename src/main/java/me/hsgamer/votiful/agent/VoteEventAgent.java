@@ -1,7 +1,10 @@
 package me.hsgamer.votiful.agent;
 
+import io.github.projectunified.minelib.scheduler.global.GlobalScheduler;
 import me.hsgamer.topper.agent.core.Agent;
+import me.hsgamer.votiful.Votiful;
 import me.hsgamer.votiful.data.VoteTableDiffSnapshot;
+import me.hsgamer.votiful.manager.EventManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +12,12 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class VoteEventAgent implements Agent, Runnable {
+    private final Votiful plugin;
     private final Queue<VoteTableDiffSnapshot> voteTableDiffSnapshotQueue = new ConcurrentLinkedQueue<>();
+
+    public VoteEventAgent(Votiful plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void run() {
@@ -19,7 +27,6 @@ public class VoteEventAgent implements Agent, Runnable {
             if (voteTableDiffSnapshot == null) {
                 break;
             }
-            System.out.println("Polled: " + voteTableDiffSnapshot);
             voteTableDiffSnapshots.add(voteTableDiffSnapshot);
         }
 
@@ -28,8 +35,12 @@ public class VoteEventAgent implements Agent, Runnable {
         }
 
         VoteTableDiffSnapshot voteTableDiffSnapshot = new VoteTableDiffSnapshot(voteTableDiffSnapshots);
-        // TODO: Implement the rest of the method
-        System.out.println("Triggered update: " + voteTableDiffSnapshot);
+        List<String> commands = plugin.get(EventManager.class).handle(voteTableDiffSnapshot);
+        GlobalScheduler.get(plugin).run(() -> {
+            for (String command : commands) {
+                plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+            }
+        });
     }
 
     void triggerUpdate(VoteTableDiffSnapshot voteTableDiffSnapshot) {

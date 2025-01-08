@@ -7,6 +7,7 @@ import me.hsgamer.hscore.config.proxy.ConfigGenerator;
 import me.hsgamer.votiful.command.StressVoteCommand;
 import me.hsgamer.votiful.config.MainConfig;
 import me.hsgamer.votiful.listener.VoteListener;
+import me.hsgamer.votiful.manager.EventManager;
 import me.hsgamer.votiful.manager.StorageManager;
 import me.hsgamer.votiful.manager.VoteManager;
 
@@ -21,6 +22,7 @@ public final class Votiful extends BasePlugin {
 
                 new StorageManager(this),
                 new VoteManager(this),
+                new EventManager(this),
 
                 new VoteListener(this),
                 new CommandComponent(this, new StressVoteCommand(this))

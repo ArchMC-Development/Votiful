@@ -1,6 +1,10 @@
 package me.hsgamer.votiful.config;
 
 import me.hsgamer.hscore.config.annotation.ConfigPath;
+import me.hsgamer.votiful.config.converter.StringStringObjectMapConverter;
+
+import java.util.Collections;
+import java.util.Map;
 
 public interface MainConfig {
     @ConfigPath("group")
@@ -16,6 +20,11 @@ public interface MainConfig {
     @ConfigPath("storage-type")
     default String getStorageType() {
         return "FLAT";
+    }
+
+    @ConfigPath(value = "events", converter = StringStringObjectMapConverter.class)
+    default Map<String, Map<String, Object>> getEvents() {
+        return Collections.emptyMap();
     }
 
     @ConfigPath({"tasks", "save", "interval"})
