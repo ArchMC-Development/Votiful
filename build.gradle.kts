@@ -37,11 +37,11 @@ version = "1.0-SNAPSHOT"
 description = "Votiful"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
-val artifactory_contextUrl = (project.findProperty("artifactory_contextUrl") ?: "") as String
-val artifactory_release = (project.findProperty("artifactory_release") ?: "") as String
-val artifactory_user = (project.findProperty("artifactory_user") ?: "") as String
-val artifactory_password = (project.findProperty("artifactory_password") ?: "") as String
-val artifactory_release_local = (project.findProperty("artifactory_release_local") ?: "") as String
+val artifactoryContextUrl = project.findProperty("artifactory_contextUrl") as? String ?: ""
+val artifactoryRelease = project.findProperty("artifactory_release") as? String ?: ""
+val artifactoryUser = project.findProperty("artifactory_user") as? String ?: ""
+val artifactoryPassword = project.findProperty("artifactory_password") as? String ?: ""
+val artifactoryReleaseLocal = project.findProperty("artifactory_release_local") as? String ?: ""
 
 publishing {
     publications{
@@ -53,10 +53,10 @@ publishing {
     repositories {
         maven {
             name = "artifactory"
-            url = uri("$artifactory_contextUrl/$artifactory_release")
+            url = uri("$artifactoryContextUrl/$artifactoryRelease")
             credentials {
-                username = artifactory_user
-                password = artifactory_password
+                username = artifactoryUser
+                password = artifactoryPassword
             }
         }
     }
@@ -64,11 +64,11 @@ publishing {
 
 configure<ArtifactoryPluginConvention> {
     publish {
-        contextUrl = artifactory_contextUrl
+        contextUrl = artifactoryContextUrl
         repository {
-            repoKey = artifactory_release_local
-            username = artifactory_user
-            password = artifactory_password
+            repoKey = artifactoryReleaseLocal
+            username = artifactoryUser
+            password = artifactoryPassword
         }
     }
 }
