@@ -37,12 +37,6 @@ version = "1.0-SNAPSHOT"
 description = "Votiful"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
-val artifactory_contextUrl: String by project
-val artifactory_release: String by project
-val artifactory_user: String by project
-val artifactory_password: String by project
-val artifactory_release_local: String by project
-
 publishing {
     publications{
         create<MavenPublication>("shadowJar") {
@@ -53,10 +47,10 @@ publishing {
     repositories {
         maven {
             name = "artifactory"
-            url = uri("$artifactory_contextUrl/$artifactory_release")
+            url = uri("${property("artifactory_contextUrl")}/${property("artifactory_release")}")
             credentials {
-                username = artifactory_user
-                password = artifactory_password
+                username = property("artifactory_user") as String
+                password = property("artifactory_password") as String
             }
         }
     }
@@ -64,11 +58,11 @@ publishing {
 
 configure<ArtifactoryPluginConvention> {
     publish {
-        contextUrl = artifactory_contextUrl
+        contextUrl = property("artifactory_contextUrl") as String
         repository {
-            repoKey = artifactory_release_local
-            username = artifactory_user
-            password = artifactory_password
+            repoKey = property("artifactory_release_local") as String
+            username = property("artifactory_user") as String
+            password = property("artifactory_password") as String
         }
     }
 }
