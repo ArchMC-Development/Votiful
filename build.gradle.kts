@@ -89,8 +89,6 @@ tasks.shadowJar {
     relocate("me.hsgamer.topper", "me.hsgamer.votiful.lib.topper")
     relocate("me.hsgamer.hscore", "me.hsgamer.votiful.lib.hscore")
     relocate("io.github.projectunified.minelib", "me.hsgamer.votiful.lib.minelib")
-
-    archiveClassifier = ""
 }
 
 tasks.assemble {
