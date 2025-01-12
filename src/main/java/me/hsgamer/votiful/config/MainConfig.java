@@ -1,9 +1,11 @@
 package me.hsgamer.votiful.config;
 
 import me.hsgamer.hscore.config.annotation.ConfigPath;
+import me.hsgamer.votiful.config.converter.StringListConverter;
 import me.hsgamer.votiful.config.converter.StringStringObjectMapConverter;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public interface MainConfig {
@@ -55,5 +57,20 @@ public interface MainConfig {
     @ConfigPath({"tasks", "event", "interval"})
     default long getTasksEventInterval() {
         return 10L;
+    }
+
+    @ConfigPath({"vote", "offline"})
+    default boolean isVotesOffline() {
+        return false;
+    }
+
+    @ConfigPath(value = {"vote", "services"}, converter = StringListConverter.class)
+    default List<String> getVoteServices() {
+        return Collections.singletonList("*");
+    }
+
+    default boolean isVoteServiceEnabled(String service) {
+        List<String> services = getVoteServices();
+        return services.contains("*") || services.contains(service);
     }
 }
