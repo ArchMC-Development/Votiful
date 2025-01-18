@@ -1,8 +1,20 @@
 package me.hsgamer.votiful.data;
 
+import me.hsgamer.topper.storage.simple.converter.ComplexValueConverter;
+import me.hsgamer.topper.storage.simple.converter.StringConverter;
+import me.hsgamer.topper.storage.simple.converter.ValueConverter;
+
 import java.util.Objects;
 
 public class VoteKey {
+    public static final ValueConverter<VoteKey> CONVERTER = ComplexValueConverter.<VoteKey>builder()
+            .constructor(() -> new VoteKey("", "", ""))
+            .entry(new StringConverter("serverName", false, 256), voteKey -> voteKey.serverName, (voteKey, value) -> new VoteKey(value, voteKey.playerName, voteKey.serviceName))
+            .entry(new StringConverter("playerName", false, 256), voteKey -> voteKey.playerName, (voteKey, value) -> new VoteKey(voteKey.serverName, value, voteKey.serviceName))
+            .entry(new StringConverter("serviceName", false, 256), voteKey -> voteKey.serviceName, (voteKey, value) -> new VoteKey(voteKey.serverName, voteKey.playerName, value))
+            .stringSeparator(";")
+            .build();
+
     public final String serverName;
     public final String playerName;
     public final String serviceName;

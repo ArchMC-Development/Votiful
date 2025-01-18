@@ -7,7 +7,7 @@ import me.hsgamer.hscore.database.Setting;
 import me.hsgamer.topper.spigot.storage.simple.SpigotDataStorageBuilder;
 import me.hsgamer.topper.storage.core.DataStorage;
 import me.hsgamer.topper.storage.simple.builder.DataStorageBuilder;
-import me.hsgamer.topper.storage.simple.setting.DataStorageBuilderSetting;
+import me.hsgamer.topper.storage.simple.converter.ValueConverter;
 import me.hsgamer.topper.storage.simple.setting.DataStorageSetting;
 import me.hsgamer.topper.storage.simple.supplier.DataStorageSupplier;
 import me.hsgamer.votiful.Votiful;
@@ -29,8 +29,8 @@ public class StorageManager implements Loadable {
         return supplier;
     }
 
-    public <K, V> DataStorage<K, V> buildStorage(String name, DataStorageSetting<K, V> setting) {
-        return supplier.getStorage(name, setting);
+    public <K, V> DataStorage<K, V> buildStorage(String name, ValueConverter<K> keyConverter, ValueConverter<V> valueConverter) {
+        return supplier.getStorage(name, keyConverter, valueConverter);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class StorageManager implements Loadable {
 
         supplier = builder.buildSupplier(
                 plugin.get(MainConfig.class).getStorageType(),
-                new DataStorageBuilderSetting() {
+                new DataStorageSetting() {
                     @Override
                     public Consumer<Setting> getDatabaseSettingModifier() {
                         return ConfigGenerator.newInstance(DatabaseConfig.class, new BukkitConfig(plugin, "database.yml"));

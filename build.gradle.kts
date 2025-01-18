@@ -30,6 +30,8 @@ dependencies {
     api(libs.bundles.minelib)
     compileOnly(libs.bundles.nuvotifier)
     compileOnly(libs.spigot)
+
+    compileOnly("org.jetbrains:annotations:26.0.1")
 }
 
 group = "me.hsgamer"
