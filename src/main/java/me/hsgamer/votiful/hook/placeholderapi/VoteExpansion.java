@@ -2,6 +2,7 @@ package me.hsgamer.votiful.hook.placeholderapi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.hsgamer.votiful.Votiful;
+import me.hsgamer.votiful.config.MainConfig;
 import me.hsgamer.votiful.data.VoteKey;
 import me.hsgamer.votiful.data.VoteTableSnapshot;
 import me.hsgamer.votiful.data.VoteValue;
@@ -65,7 +66,11 @@ public class VoteExpansion extends PlaceholderExpansion {
             if (split.length < 2) {
                 return null;
             }
-            voteMap = voteTableSnapshot.serverMap(split[1]);
+            String name = split[1];
+            if (name.equalsIgnoreCase("self")) {
+                name = plugin.get(MainConfig.class).getServerName();
+            }
+            voteMap = voteTableSnapshot.serverMap(name);
             filters = Arrays.asList(split).subList(2, split.length);
         } else if (type.equalsIgnoreCase("service")) {
             if (split.length < 2) {
