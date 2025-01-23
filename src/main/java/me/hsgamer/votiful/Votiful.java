@@ -6,6 +6,7 @@ import me.hsgamer.hscore.bukkit.config.BukkitConfig;
 import me.hsgamer.hscore.config.proxy.ConfigGenerator;
 import me.hsgamer.votiful.command.StressVoteCommand;
 import me.hsgamer.votiful.config.MainConfig;
+import me.hsgamer.votiful.hook.PlaceholderAPIHook;
 import me.hsgamer.votiful.listener.VoteListener;
 import me.hsgamer.votiful.manager.EventManager;
 import me.hsgamer.votiful.manager.StorageManager;
@@ -25,7 +26,9 @@ public final class Votiful extends BasePlugin {
                 new EventManager(this),
 
                 new VoteListener(this),
-                new CommandComponent(this, new StressVoteCommand(this))
+                new CommandComponent(this, new StressVoteCommand(this)),
+
+                new PlaceholderAPIHook(this)
         );
     }
 }
