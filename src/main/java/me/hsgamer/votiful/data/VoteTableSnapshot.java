@@ -6,6 +6,7 @@ import me.hsgamer.topper.core.DataEntry;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public class VoteTableSnapshot {
     public final Map<VoteKey, VoteValue> entryMap;
@@ -67,16 +68,27 @@ public class VoteTableSnapshot {
         return serviceMap.getOrDefault(serviceName, ImmutableMap.of());
     }
 
-    public int serverVotes(String serverName) {
-        return serverMap(serverName).values().stream().mapToInt(value -> value.vote).sum();
+    private static int votes(Map<VoteKey, VoteValue> map, Predicate<VoteKey> filter) {
+        return map.entrySet().stream()
+                .filter(entry -> filter.test(entry.getKey()))
+                .mapToInt(entry -> entry.getValue().vote)
+                .sum();
     }
 
-    public int playerVotes(String playerName) {
-        return playerMap(playerName).values().stream().mapToInt(value -> value.vote).sum();
+    public int groupVotes(Predicate<VoteKey> filter) {
+        return votes(entryMap, filter);
     }
 
-    public int serviceVotes(String serviceName) {
-        return serviceMap(serviceName).values().stream().mapToInt(value -> value.vote).sum();
+    public int serverVotes(String serverName, Predicate<VoteKey> filter) {
+        return votes(serverMap(serverName), filter);
+    }
+
+    public int playerVotes(String playerName, Predicate<VoteKey> filter) {
+        return votes(playerMap(playerName), filter);
+    }
+
+    public int serviceVotes(String serviceName, Predicate<VoteKey> filter) {
+        return votes(serviceMap(serviceName), filter);
     }
 
     @Override
