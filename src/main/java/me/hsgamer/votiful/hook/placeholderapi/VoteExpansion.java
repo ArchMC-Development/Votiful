@@ -67,7 +67,7 @@ public class VoteExpansion extends PlaceholderExpansion {
                 return null;
             }
             String name = split[1];
-            if (name.equalsIgnoreCase("self")) {
+            if (name.equalsIgnoreCase("@current")) {
                 name = plugin.get(MainConfig.class).getServerName();
             }
             voteMap = voteTableSnapshot.serverMap(name);
