@@ -1,5 +1,5 @@
 [versions]
-topper = "3.4.1"
+topper = "3.4.2"
 minelib = "1.2.5"
 hscore = "4.5.7"
 nuvotifier = "2.7.2"
