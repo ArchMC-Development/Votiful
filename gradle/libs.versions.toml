@@ -4,6 +4,7 @@ minelib = "1.2.5"
 hscore = "4.5.7"
 nuvotifier = "2.7.2"
 spigot = "1.13.2-R0.1-SNAPSHOT"
+placeholderapi = "2.11.6"
 
 [libraries]
 nuvotifier-api = { module = "com.github.NuVotifier.NuVotifier:nuvotifier-api", version.ref = "nuvotifier" }
@@ -23,6 +24,7 @@ topper-core = { module = "me.hsgamer:topper-core", version.ref = "topper" }
 topper-spigot-agent-runnable = { module = "me.hsgamer:topper-spigot-agent-runnable", version.ref = "topper" }
 topper-spigot-storage-simple = { module = "me.hsgamer:topper-spigot-storage-simple", version.ref = "topper" }
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
 
 [bundles]
 topper = ["topper-agent-holder", "topper-agent-storage", "topper-core", "topper-spigot-agent-runnable", "topper-spigot-storage-simple"]

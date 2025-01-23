@@ -3,4 +3,5 @@ version: '${version}'
 main: me.hsgamer.votiful.Votiful
 api-version: '1.13'
 depend: [Votifier]
+softdepend: [PlaceholderAPI]
 folia-supported: true

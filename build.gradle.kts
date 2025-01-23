@@ -22,6 +22,10 @@ repositories {
     maven {
         url = uri("https://jitpack.io")
     }
+
+    maven {
+        url = uri("https://repo.extendedclip.com/releases/")
+    }
 }
 
 dependencies {
@@ -30,6 +34,7 @@ dependencies {
     api(libs.bundles.minelib)
     compileOnly(libs.bundles.nuvotifier)
     compileOnly(libs.spigot)
+    compileOnly(libs.placeholderapi)
 
     compileOnly("org.jetbrains:annotations:26.0.1")
 }
