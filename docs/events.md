@@ -2,18 +2,18 @@
 
 ```yaml
 events:
-  <event-name>:
-    key-type: <key-type>
-    value: <value>
-    repeat: <true|false>
-    service-rule:
-    - <service>
-    player-rule:
-    - <player>
-    server-rule:
-    - <server>
-    commands:
-    - <command>
+    <event-name>:
+        key-type: <key-type>
+        value: <value>
+        repeat: <true|false>
+        service-rule:
+            - <service>
+        player-rule:
+            - <player>
+        server-rule:
+            - <server>
+        commands:
+            - <command>
 ```
 
 * `key-type`
@@ -49,20 +49,20 @@ events:
 
 ```yaml
 events:
-  # A group event that triggers when the total votes for the group is a multiple of 10.
-  test-group:
-    key-type: group
-    repeat: true
-    value: 10
-    commands:
-    - 'say {key} group : {value}'
-  # A player event that triggers when the total votes for the player is a multiple of 10.
-  test-player:
-    key-type: player
-    repeat: true
-    value: 10
-    service-rule:
-      - 'PlanetMinecraft.com' # Only consider votes from the PlanetMinecraft service.
-    commands:
-    - 'say {key} player : {value}'
+    # A group event that triggers when the total votes for the group is a multiple of 10.
+    test-group:
+        key-type: group
+        repeat: true
+        value: 10
+        commands:
+            - 'say {key} group : {value}'
+    # A player event that triggers when the total votes for the player is a multiple of 10.
+    test-player:
+        key-type: player
+        repeat: true
+        value: 10
+        service-rule:
+            - 'PlanetMinecraft.com' # Only consider votes from the PlanetMinecraft service.
+        commands:
+            - 'say {key} player : {value}'
 ```

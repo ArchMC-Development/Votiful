@@ -51,7 +51,7 @@ val artifactoryPassword = project.findProperty("artifactory_password") as? Strin
 val artifactoryReleaseLocal = project.findProperty("artifactory_release_local") as? String ?: ""
 
 publishing {
-    publications{
+    publications {
         create<MavenPublication>("shadowJar") {
             from(components["shadow"])
         }
@@ -80,11 +80,11 @@ configure<ArtifactoryPluginConvention> {
     }
 }
 
-tasks.withType<JavaCompile>() {
+tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
-tasks.withType<Javadoc>() {
+tasks.withType<Javadoc> {
     options.encoding = "UTF-8"
 }
 
