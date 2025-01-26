@@ -105,24 +105,22 @@ public class GlobalEvent implements Event {
     @Override
     public List<String> handle(VoteTableDiffSnapshot snapshot) {
         Map<String, Integer> voteMap = getVoteMap(snapshot.newSnapshot.entryMap, keyType);
+        Map<String, Integer> oldVoteMap = getVoteMap(snapshot.oldSnapshot.entryMap, keyType);
 
         Map<String, Integer> startMap = new HashMap<>();
-        if (repeat) {
-            Map<String, Integer> oldVoteMap = getVoteMap(snapshot.oldSnapshot.entryMap, keyType);
-            for (Map.Entry<String, Integer> entry : voteMap.entrySet()) {
-                int vote = entry.getValue();
-                int oldVote = oldVoteMap.getOrDefault(entry.getKey(), 0);
-                int voteThreshold = ((oldVote / voteValue) + 1) * voteValue;
-                if (vote >= voteThreshold && oldVote < voteThreshold) {
-                    startMap.put(entry.getKey(), vote);
-                }
+        for (Map.Entry<String, Integer> entry : voteMap.entrySet()) {
+            int vote = entry.getValue();
+            int oldVote = oldVoteMap.getOrDefault(entry.getKey(), 0);
+
+            int voteThreshold;
+            if (repeat) {
+                voteThreshold = ((oldVote / voteValue) + 1) * voteValue;
+            } else {
+                voteThreshold = voteValue;
             }
-        } else {
-            for (Map.Entry<String, Integer> entry : voteMap.entrySet()) {
-                int vote = entry.getValue();
-                if (vote >= voteValue) {
-                    startMap.put(entry.getKey(), vote);
-                }
+
+            if (vote >= voteThreshold && oldVote < voteThreshold) {
+                startMap.put(entry.getKey(), vote);
             }
         }
 
