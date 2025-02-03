@@ -29,7 +29,7 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
 
         MainConfig mainConfig = plugin.get(MainConfig.class);
 
-        storageAgent = new StorageAgent<VoteKey, VoteValue>(plugin.getLogger(), this, plugin.get(StorageManager.class).buildStorage(name, VoteKey.CONVERTER, VoteValue.CONVERTER)) {
+        storageAgent = new StorageAgent<VoteKey, VoteValue>(this, plugin.get(StorageManager.class).buildStorage(name, VoteKey.CONVERTER, VoteValue.CONVERTER)) {
             @Override
             public void onUpdate(DataEntry<VoteKey, VoteValue> entry, VoteValue oldValue) {
                 VoteKey key = entry.getKey();

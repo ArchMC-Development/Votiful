@@ -1,5 +1,5 @@
 [versions]
-topper = "3.4.2"
+topper = "3.5.0"
 minelib = "1.2.5"
 hscore = "4.5.7"
 nuvotifier = "2.7.2"
@@ -23,11 +23,12 @@ topper-agent-storage = { module = "me.hsgamer:topper-agent-storage", version.ref
 topper-core = { module = "me.hsgamer:topper-core", version.ref = "topper" }
 topper-spigot-agent-runnable = { module = "me.hsgamer:topper-spigot-agent-runnable", version.ref = "topper" }
 topper-spigot-storage-simple = { module = "me.hsgamer:topper-spigot-storage-simple", version.ref = "topper" }
+topper-storage-simple-config = { module = "me.hsgamer:topper-storage-simple-config", version.ref = "topper" }
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
 
 [bundles]
-topper = ["topper-agent-holder", "topper-agent-storage", "topper-core", "topper-spigot-agent-runnable", "topper-spigot-storage-simple"]
+topper = ["topper-agent-holder", "topper-agent-storage", "topper-core", "topper-spigot-agent-runnable", "topper-spigot-storage-simple", "topper-storage-simple-config"]
 minelib = ["minelib-plugin-base", "minelib-plugin-command", "minelib-plugin-listener", "minelib-scheduler-global", "minelib-scheduler-async"]
 hscore = ["hscore-bukkit-config", "hscore-config-proxy", "hscore-common"]
 nuvotifier = ["nuvotifier-api", "nuvotifier-common", "nuvotifier-bukkit"]
