@@ -31,10 +31,10 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
 
         storageAgent = new StorageAgent<VoteKey, VoteValue>(this, plugin.get(StorageManager.class).buildStorage(name, VoteKey.CONVERTER, VoteValue.CONVERTER)) {
             @Override
-            public void onUpdate(DataEntry<VoteKey, VoteValue> entry, VoteValue oldValue) {
+            public void onUpdate(DataEntry<VoteKey, VoteValue> entry, VoteValue oldValue, VoteValue newValue) {
                 VoteKey key = entry.getKey();
                 if (Objects.equals(key.serverName, mainConfig.getServerName())) {
-                    super.onUpdate(entry, oldValue);
+                    super.onUpdate(entry, oldValue, newValue);
                 }
             }
         };
@@ -57,7 +57,7 @@ public class VoteHolder extends AgentDataHolder<VoteKey, VoteValue> {
     }
 
     @Override
-    protected VoteValue getDefaultValue() {
+    public VoteValue getDefaultValue() {
         return VoteValue.EMPTY;
     }
 

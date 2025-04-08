@@ -46,7 +46,7 @@ public class VoteStatsAgent implements Agent, DataEntryAgent<VoteKey, VoteValue>
     }
 
     @Override
-    public void onUpdate(DataEntry<VoteKey, VoteValue> entry, VoteValue oldValue) {
+    public void onUpdate(DataEntry<VoteKey, VoteValue> entry, VoteValue oldValue, VoteValue newValue) {
         needUpdate.lazySet(true);
     }
 
