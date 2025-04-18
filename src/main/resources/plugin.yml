@@ -1,5 +1,5 @@
 name: Votiful
-version: '${version}'
+version: '${project.version}'
 main: me.hsgamer.votiful.Votiful
 api-version: '1.13'
 depend: [Votifier]
