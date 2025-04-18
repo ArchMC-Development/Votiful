@@ -22,6 +22,7 @@
         <nuvotifier.version>2.7.2</nuvotifier.version>
         <spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
         <placeholderapi.version>2.11.6</placeholderapi.version>
+        <bstats.version>3.0.2</bstats.version>
     </properties>
 
     <build>
@@ -73,6 +74,10 @@
                                 <relocation>
                                     <pattern>io.github.projectunified.minelib</pattern>
                                     <shadedPattern>me.hsgamer.votiful.lib.minelib</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>me.hsgamer.votiful.lib.bstats</shadedPattern>
                                 </relocation>
                             </relocations>
                             <filters>
@@ -241,6 +246,13 @@
             <artifactId>placeholderapi</artifactId>
             <version>${placeholderapi.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>${bstats.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

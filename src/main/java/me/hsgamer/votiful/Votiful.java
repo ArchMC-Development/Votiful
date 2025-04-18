@@ -11,6 +11,7 @@ import me.hsgamer.votiful.listener.VoteListener;
 import me.hsgamer.votiful.manager.EventManager;
 import me.hsgamer.votiful.manager.StorageManager;
 import me.hsgamer.votiful.manager.VoteManager;
+import org.bstats.bukkit.Metrics;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,5 +31,10 @@ public final class Votiful extends BasePlugin {
 
                 new PlaceholderAPIHook(this)
         );
+    }
+
+    @Override
+    public void enable() {
+        new Metrics(this, 25520);
     }
 }
