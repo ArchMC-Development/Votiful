@@ -1,0 +1,9 @@
+<svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>Layer 1</title>
+  <rect id="svg_3" height="48" width="48" y="1" x="1" stroke="#000" fill="#fff"/>
+  <path id="svg_7" d="m31.28444,8.14358l5.14358,0l0,-5.14358l5.27634,0l0,5.14358l5.14358,0l0,5.27634l-5.14358,0l0,5.14358l-5.27634,0l0,-5.14358l-5.14358,0l0,-5.27634z" stroke="#ffffff" fill="#000"/>
+  <rect stroke="#000" stroke-dasharray="5,2,2,2,2,2" id="svg_9" height="22.71914" width="41.32379" y="22.58497" x="4.33811" fill="#ffffff"/>
+ </g>
+</svg>
