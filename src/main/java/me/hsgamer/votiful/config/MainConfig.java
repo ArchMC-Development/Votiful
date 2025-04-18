@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 public interface MainConfig {
-    @ConfigPath("group")
+    @ConfigPath(value = "group")
     @Comment("The group including the server")
     default String getGroup() {
         return "default";
     }
 
-    @ConfigPath("server-name")
+    @ConfigPath(value = "server-name", priority = 1)
     @Comment("The server name")
     default String getServerName() {
         return "server";
     }
 
-    @ConfigPath("storage-type")
+    @ConfigPath(value = "storage-type", priority = 2)
     @Comment({
             "The storage type",
             "Available types: FLAT, MYSQL, SQLITE, NEW-SQLITE, JSON, YAML"
@@ -31,25 +31,25 @@ public interface MainConfig {
         return "FLAT";
     }
 
-    @ConfigPath(value = "events", converter = StringStringObjectMapConverter.class)
+    @ConfigPath(value = "events", converter = StringStringObjectMapConverter.class, priority = 3)
     @Comment("The event settings")
     default Map<String, Map<String, Object>> getEvents() {
         return Collections.emptyMap();
     }
 
-    @ConfigPath({"tasks", "save", "interval"})
+    @ConfigPath(value = {"tasks", "save", "interval"}, priority = 4)
     @Comment("The interval in ticks to do the saving task")
     default long getTasksSaveInterval() {
         return 10L;
     }
 
-    @ConfigPath({"tasks", "save", "entry-per-call"})
+    @ConfigPath(value = {"tasks", "save", "entry-per-call"}, priority = 4)
     @Comment("The amount of entries to save per call")
     default int getTasksSaveEntryPerCall() {
         return 10;
     }
 
-    @ConfigPath({"tasks", "sync", "enable"})
+    @ConfigPath(value = {"tasks", "sync", "enable"}, priority = 4)
     @Comment({
             "Enable the sync task",
             "This will sync the votes from other servers within the group"
@@ -58,31 +58,31 @@ public interface MainConfig {
         return false;
     }
 
-    @ConfigPath({"tasks", "sync", "interval"})
+    @ConfigPath(value = {"tasks", "sync", "interval"}, priority = 4)
     @Comment("The interval in ticks to do the sync task")
     default long getTasksSyncInterval() {
         return 10L;
     }
 
-    @ConfigPath({"tasks", "stats", "interval"})
+    @ConfigPath(value = {"tasks", "stats", "interval"}, priority = 4)
     @Comment("The interval in ticks to do the stats task")
     default long getTasksStatsInterval() {
         return 10L;
     }
 
-    @ConfigPath({"tasks", "event", "interval"})
+    @ConfigPath(value = {"tasks", "event", "interval"}, priority = 4)
     @Comment("The interval in ticks to do the event task")
     default long getTasksEventInterval() {
         return 10L;
     }
 
-    @ConfigPath({"vote", "offline"})
+    @ConfigPath(value = {"vote", "offline"}, priority = 5)
     @Comment("Should the plugin handle offline votes?")
     default boolean isVotesOffline() {
         return false;
     }
 
-    @ConfigPath(value = {"vote", "services"}, converter = StringListConverter.class)
+    @ConfigPath(value = {"vote", "services"}, converter = StringListConverter.class, priority = 5)
     @Comment({
             "The accepted vote services",
             "Use '*' to accept all services"
