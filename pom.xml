@@ -22,7 +22,7 @@
         <nuvotifier.version>2.7.2</nuvotifier.version>
         <spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
         <placeholderapi.version>2.11.6</placeholderapi.version>
-        <bstats.version>3.0.2</bstats.version>
+        <bstats.version>3.1.0</bstats.version>
     </properties>
 
     <build>
