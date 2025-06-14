@@ -16,9 +16,9 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <topper.version>3.8.2</topper.version>
+        <topper.version>3.10.1</topper.version>
         <minelib.version>1.2.5</minelib.version>
-        <hscore.version>4.5.7</hscore.version>
+        <hscore.version>4.6.0</hscore.version>
         <nuvotifier.version>2.7.2</nuvotifier.version>
         <spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
         <placeholderapi.version>2.11.6</placeholderapi.version>
