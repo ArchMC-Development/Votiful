@@ -9,7 +9,6 @@ import me.hsgamer.votiful.config.MainConfig;
 import me.hsgamer.votiful.hook.PlaceholderAPIHook;
 import me.hsgamer.votiful.listener.VoteListener;
 import me.hsgamer.votiful.manager.EventManager;
-import me.hsgamer.votiful.manager.StorageManager;
 import me.hsgamer.votiful.manager.VoteManager;
 import org.bstats.bukkit.Metrics;
 
@@ -22,7 +21,6 @@ public final class Votiful extends BasePlugin {
         return Arrays.asList(
                 ConfigGenerator.newInstance(MainConfig.class, new BukkitConfig(this)),
 
-                new StorageManager(this),
                 new VoteManager(this),
                 new EventManager(this),
 

@@ -1,18 +1,27 @@
 package me.hsgamer.votiful.data;
 
-import me.hsgamer.topper.storage.simple.converter.ComplexValueConverter;
-import me.hsgamer.topper.storage.simple.converter.StringConverter;
-import me.hsgamer.topper.storage.simple.converter.ValueConverter;
+import me.hsgamer.topper.storage.flat.converter.ComplexFlatValueConverter;
+import me.hsgamer.topper.storage.flat.converter.StringFlatValueConverter;
+import me.hsgamer.topper.storage.flat.core.FlatValueConverter;
+import me.hsgamer.topper.storage.sql.converter.ComplexSqlValueConverter;
+import me.hsgamer.topper.storage.sql.converter.StringSqlValueConverter;
+import me.hsgamer.topper.storage.sql.core.SqlValueConverter;
 
 import java.util.Objects;
 
 public class VoteKey {
-    public static final ValueConverter<VoteKey> CONVERTER = ComplexValueConverter.<VoteKey>builder()
+    public static final FlatValueConverter<VoteKey> FLAT_CONVERTER = ComplexFlatValueConverter.<VoteKey>builder()
             .constructor(() -> new VoteKey("", "", ""))
-            .entry(new StringConverter("serverName", false, 256), voteKey -> voteKey.serverName, (voteKey, value) -> new VoteKey(value, voteKey.playerName, voteKey.serviceName))
-            .entry(new StringConverter("playerName", false, 256), voteKey -> voteKey.playerName, (voteKey, value) -> new VoteKey(voteKey.serverName, value, voteKey.serviceName))
-            .entry(new StringConverter("serviceName", false, 256), voteKey -> voteKey.serviceName, (voteKey, value) -> new VoteKey(voteKey.serverName, voteKey.playerName, value))
+            .entry(new StringFlatValueConverter(), voteKey -> voteKey.serverName, (voteKey, value) -> new VoteKey(value, voteKey.playerName, voteKey.serviceName))
+            .entry(new StringFlatValueConverter(), voteKey -> voteKey.playerName, (voteKey, value) -> new VoteKey(voteKey.serverName, value, voteKey.serviceName))
+            .entry(new StringFlatValueConverter(), voteKey -> voteKey.serviceName, (voteKey, value) -> new VoteKey(voteKey.serverName, voteKey.playerName, value))
             .stringSeparator(";")
+            .build();
+    public static final SqlValueConverter<VoteKey> SQL_CONVERTER = ComplexSqlValueConverter.<VoteKey>builder()
+            .constructor(() -> new VoteKey("", "", ""))
+            .entry(new StringSqlValueConverter("serverName", false, 256), voteKey -> voteKey.serverName, (voteKey, value) -> new VoteKey(value, voteKey.playerName, voteKey.serviceName))
+            .entry(new StringSqlValueConverter("playerName", false, 256), voteKey -> voteKey.playerName, (voteKey, value) -> new VoteKey(voteKey.serverName, value, voteKey.serviceName))
+            .entry(new StringSqlValueConverter("serviceName", false, 256), voteKey -> voteKey.serviceName, (voteKey, value) -> new VoteKey(voteKey.serverName, voteKey.playerName, value))
             .build();
 
     public final String serverName;

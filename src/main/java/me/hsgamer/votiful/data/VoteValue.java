@@ -1,18 +1,26 @@
 package me.hsgamer.votiful.data;
 
-import me.hsgamer.topper.storage.simple.converter.ComplexValueConverter;
-import me.hsgamer.topper.storage.simple.converter.NumberConverter;
-import me.hsgamer.topper.storage.simple.converter.ValueConverter;
+import me.hsgamer.topper.storage.flat.converter.ComplexFlatValueConverter;
+import me.hsgamer.topper.storage.flat.converter.NumberFlatValueConverter;
+import me.hsgamer.topper.storage.flat.core.FlatValueConverter;
+import me.hsgamer.topper.storage.sql.converter.ComplexSqlValueConverter;
+import me.hsgamer.topper.storage.sql.converter.NumberSqlValueConverter;
+import me.hsgamer.topper.storage.sql.core.SqlValueConverter;
 
 import java.util.Objects;
 
 public class VoteValue {
     public static final VoteValue EMPTY = new VoteValue(0, 0);
-    public static final ValueConverter<VoteValue> CONVERTER = ComplexValueConverter.<VoteValue>builder()
+    public static final FlatValueConverter<VoteValue> FLAT_CONVERTER = ComplexFlatValueConverter.<VoteValue>builder()
             .constructor(() -> EMPTY)
-            .entry(new NumberConverter<>("vote", false, Number::intValue), voteValue -> voteValue.vote, (voteValue, value) -> new VoteValue(value, voteValue.lastVoteTimestamp))
-            .entry(new NumberConverter<>("lastVoteTimestamp", false, Number::longValue), voteValue -> voteValue.lastVoteTimestamp, (voteValue, value) -> new VoteValue(voteValue.vote, value))
+            .entry(new NumberFlatValueConverter<>(Number::intValue), voteValue -> voteValue.vote, (voteValue, value) -> new VoteValue(value, voteValue.lastVoteTimestamp))
+            .entry(new NumberFlatValueConverter<>(Number::longValue), voteValue -> voteValue.lastVoteTimestamp, (voteValue, value) -> new VoteValue(voteValue.vote, value))
             .stringSeparator(";")
+            .build();
+    public static final SqlValueConverter<VoteValue> SQL_CONVERTER = ComplexSqlValueConverter.<VoteValue>builder()
+            .constructor(() -> EMPTY)
+            .entry(new NumberSqlValueConverter<>("vote", false, Number::intValue), voteValue -> voteValue.vote, (voteValue, value) -> new VoteValue(value, voteValue.lastVoteTimestamp))
+            .entry(new NumberSqlValueConverter<>("lastVoteTimestamp", false, Number::longValue), voteValue -> voteValue.lastVoteTimestamp, (voteValue, value) -> new VoteValue(voteValue.vote, value))
             .build();
 
     public final int vote;

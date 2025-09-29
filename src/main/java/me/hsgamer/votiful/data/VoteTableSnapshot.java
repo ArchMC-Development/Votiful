@@ -1,7 +1,7 @@
 package me.hsgamer.votiful.data;
 
 import com.google.common.collect.ImmutableMap;
-import me.hsgamer.topper.core.DataEntry;
+import me.hsgamer.topper.data.core.DataEntry;
 
 import java.util.HashMap;
 import java.util.Map;
