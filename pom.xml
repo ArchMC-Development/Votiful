@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <topper.version>4.4.0</topper.version>
-        <minelib.version>1.2.5</minelib.version>
+        <minelib.version>1.3.0</minelib.version>
         <hscore.version>4.6.0</hscore.version>
         <nuvotifier.version>2.7.2</nuvotifier.version>
         <spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
