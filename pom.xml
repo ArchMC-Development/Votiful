@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <topper.version>4.17.0</topper.version>
+        <topper.spigot.version>4.5.0</topper.spigot.version>
         <minelib.version>1.3.0</minelib.version>
         <hscore.version>4.7.6</hscore.version>
         <nuvotifier.version>2.7.2</nuvotifier.version>
@@ -204,18 +205,6 @@
             <version>${hscore.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
-            <artifactId>hscore-config-gson</artifactId>
-            <version>${hscore.version}</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <dependency>
             <groupId>me.hsgamer</groupId>
@@ -237,57 +226,14 @@
         </dependency>
         <dependency>
             <groupId>me.hsgamer</groupId>
-            <artifactId>topper-storage-flat-core</artifactId>
-            <version>${topper.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
-            <artifactId>topper-storage-flat-converter</artifactId>
-            <version>${topper.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
-            <artifactId>topper-storage-flat-properties</artifactId>
-            <version>${topper.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
-            <artifactId>topper-storage-flat-configfile</artifactId>
-            <version>${topper.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
-            <artifactId>topper-storage-sql-core</artifactId>
-            <version>${topper.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
-            <artifactId>topper-storage-sql-converter</artifactId>
-            <version>${topper.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
-            <artifactId>topper-storage-sql-sqlite</artifactId>
-            <version>${topper.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
-            <artifactId>topper-storage-sql-mysql</artifactId>
-            <version>${topper.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.hsgamer</groupId>
             <artifactId>topper-storage-sql-config</artifactId>
             <version>${topper.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.hsgamer</groupId>
+            <artifactId>topper-spigot-template-storage-supplier</artifactId>
+            <version>${topper.spigot.version}</version>
         </dependency>
 
         <dependency>
