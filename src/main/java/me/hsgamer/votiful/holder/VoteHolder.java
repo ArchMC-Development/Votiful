@@ -1,5 +1,6 @@
 package me.hsgamer.votiful.holder;
 
+import io.github.projectunified.minelib.scheduler.async.AsyncScheduler;
 import me.hsgamer.hscore.bukkit.config.BukkitConfig;
 import me.hsgamer.topper.agent.core.Agent;
 import me.hsgamer.topper.agent.core.AgentHolder;
@@ -7,13 +8,13 @@ import me.hsgamer.topper.agent.core.DataEntryAgent;
 import me.hsgamer.topper.agent.storage.StorageAgent;
 import me.hsgamer.topper.data.core.DataEntry;
 import me.hsgamer.topper.data.simple.SimpleDataHolder;
+import me.hsgamer.topper.spigot.agent.runnable.SpigotRunnableAgent;
 import me.hsgamer.topper.spigot.template.storagesupplier.SpigotStorageSupplierTemplate;
 import me.hsgamer.topper.storage.core.DataStorage;
 import me.hsgamer.topper.storage.sql.config.SqlDatabaseConfig;
 import me.hsgamer.topper.storage.sql.core.SqlDatabaseSetting;
 import me.hsgamer.topper.template.storagesupplier.StorageSupplierTemplate;
 import me.hsgamer.votiful.Votiful;
-import me.hsgamer.votiful.agent.TaskRunAgent;
 import me.hsgamer.votiful.agent.VoteEventAgent;
 import me.hsgamer.votiful.agent.VoteStatsAgent;
 import me.hsgamer.votiful.agent.VoteSyncAgent;
@@ -74,18 +75,18 @@ public class VoteHolder extends SimpleDataHolder<VoteKey, VoteValue> implements 
         agents.add(storageAgent);
         entryAgents.add(storageAgent);
         agents.add(storageAgent.getLoadAgent(this));
-        agents.add(new TaskRunAgent(plugin, storageAgent, mainConfig.getTasksSaveInterval()));
+        agents.add(new SpigotRunnableAgent(storageAgent, AsyncScheduler.get(plugin), mainConfig.getTasksSaveInterval()));
         if (mainConfig.isTasksSyncEnable()) {
-            agents.add(new TaskRunAgent(plugin, new VoteSyncAgent(plugin, this), mainConfig.getTasksSyncInterval()));
+            agents.add(new SpigotRunnableAgent(new VoteSyncAgent(plugin, this), AsyncScheduler.get(plugin), mainConfig.getTasksSyncInterval()));
         }
 
         voteStatsAgent = new VoteStatsAgent(this);
         agents.add(voteStatsAgent);
         entryAgents.add(voteStatsAgent);
-        agents.add(new TaskRunAgent(plugin, voteStatsAgent, mainConfig.getTasksStatsInterval()));
+        agents.add(new SpigotRunnableAgent(voteStatsAgent, AsyncScheduler.get(plugin), mainConfig.getTasksStatsInterval()));
 
         voteEventAgent = new VoteEventAgent(plugin);
-        agents.add(new TaskRunAgent(plugin, voteEventAgent, mainConfig.getTasksEventInterval()));
+        agents.add(new SpigotRunnableAgent(voteEventAgent, AsyncScheduler.get(plugin), mainConfig.getTasksEventInterval()));
     }
 
     @Override
