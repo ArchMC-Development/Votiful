@@ -24,35 +24,42 @@ public class VoteTableSnapshot {
 
     public VoteTableSnapshot(Map<VoteKey, DataEntry<VoteKey, VoteValue>> entryMap) {
         ImmutableMap.Builder<VoteKey, VoteValue> builder = ImmutableMap.builder();
-        int totalVotes = 0;
-        Map<String, ImmutableMap.Builder<VoteKey, VoteValue>> serverMap = new HashMap<>();
-        Map<String, ImmutableMap.Builder<VoteKey, VoteValue>> playerMap = new HashMap<>();
-        Map<String, ImmutableMap.Builder<VoteKey, VoteValue>> serviceMap = new HashMap<>();
+        int totalVotesValue = 0;
+        Map<String, ImmutableMap.Builder<VoteKey, VoteValue>> serverMapTmp = new HashMap<>();
+        Map<String, ImmutableMap.Builder<VoteKey, VoteValue>> playerMapTmp = new HashMap<>();
+        Map<String, ImmutableMap.Builder<VoteKey, VoteValue>> serviceMapTmp = new HashMap<>();
         for (Map.Entry<VoteKey, DataEntry<VoteKey, VoteValue>> entry : entryMap.entrySet()) {
             VoteKey key = entry.getKey();
             VoteValue value = entry.getValue().getValue();
             builder.put(key, value);
-            totalVotes += value.vote;
+            totalVotesValue += value.vote;
 
-            serverMap.computeIfAbsent(key.serverName, k -> ImmutableMap.builder()).put(key, value);
-            playerMap.computeIfAbsent(key.playerName, k -> ImmutableMap.builder()).put(key, value);
-            serviceMap.computeIfAbsent(key.serviceName, k -> ImmutableMap.builder()).put(key, value);
+            serverMapTmp.computeIfAbsent(key.serverName, k -> ImmutableMap.builder()).put(key, value);
+            playerMapTmp.computeIfAbsent(key.playerName, k -> ImmutableMap.builder()).put(key, value);
+            serviceMapTmp.computeIfAbsent(key.serviceName, k -> ImmutableMap.builder()).put(key, value);
         }
 
         this.entryMap = builder.build();
-        this.totalVotes = totalVotes;
+        this.totalVotes = totalVotesValue;
 
         ImmutableMap.Builder<String, Map<VoteKey, VoteValue>> serverMapBuilder = ImmutableMap.builder();
-        serverMap.forEach((key, value) -> serverMapBuilder.put(key, value.build()));
+        for (Map.Entry<String, ImmutableMap.Builder<VoteKey, VoteValue>> entry : serverMapTmp.entrySet()) {
+            serverMapBuilder.put(entry.getKey(), entry.getValue().build());
+        }
         this.serverMap = serverMapBuilder.build();
 
         ImmutableMap.Builder<String, Map<VoteKey, VoteValue>> playerMapBuilder = ImmutableMap.builder();
-        playerMap.forEach((key, value) -> playerMapBuilder.put(key, value.build()));
+        for (Map.Entry<String, ImmutableMap.Builder<VoteKey, VoteValue>> entry : playerMapTmp.entrySet()) {
+            playerMapBuilder.put(entry.getKey(), entry.getValue().build());
+        }
         this.playerMap = playerMapBuilder.build();
 
         ImmutableMap.Builder<String, Map<VoteKey, VoteValue>> serviceMapBuilder = ImmutableMap.builder();
-        serviceMap.forEach((key, value) -> serviceMapBuilder.put(key, value.build()));
+        for (Map.Entry<String, ImmutableMap.Builder<VoteKey, VoteValue>> entry : serviceMapTmp.entrySet()) {
+            serviceMapBuilder.put(entry.getKey(), entry.getValue().build());
+        }
         this.serviceMap = serviceMapBuilder.build();
+
     }
 
     public Map<VoteKey, VoteValue> serverMap(String serverName) {
@@ -69,6 +76,7 @@ public class VoteTableSnapshot {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VoteTableSnapshot that = (VoteTableSnapshot) o;
         return Objects.equals(entryMap, that.entryMap);

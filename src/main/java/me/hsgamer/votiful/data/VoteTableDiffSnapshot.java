@@ -49,6 +49,7 @@ public class VoteTableDiffSnapshot {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VoteTableDiffSnapshot that = (VoteTableDiffSnapshot) o;
         return timestamp == that.timestamp && Objects.equals(oldSnapshot, that.oldSnapshot) && Objects.equals(newSnapshot, that.newSnapshot);

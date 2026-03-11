@@ -30,6 +30,7 @@ public class Vote {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vote vote = (Vote) o;
         return timestamp == vote.timestamp && Objects.equals(serviceName, vote.serviceName) && Objects.equals(playerName, vote.playerName) && Objects.equals(address, vote.address);

@@ -22,10 +22,9 @@ public class VoteStatsAgent implements Agent, DataEntryAgent<VoteKey, VoteValue>
     }
 
     private void updateStats(boolean triggerUpdate) {
-        VoteTableSnapshot oldSnapshot = voteTableSnapshotRef.get();
         VoteTableSnapshot newSnapshot = new VoteTableSnapshot(holder.getEntryMap());
-        voteTableSnapshotRef.set(newSnapshot);
-        if (triggerUpdate) {
+        VoteTableSnapshot oldSnapshot = voteTableSnapshotRef.getAndSet(newSnapshot);
+        if (triggerUpdate && !newSnapshot.equals(oldSnapshot)) {
             holder.getVoteEventAgent().triggerUpdate(new VoteTableDiffSnapshot(oldSnapshot, newSnapshot));
         }
     }

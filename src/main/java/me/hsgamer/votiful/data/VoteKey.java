@@ -36,6 +36,7 @@ public class VoteKey {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VoteKey key = (VoteKey) o;
         return Objects.equals(serverName, key.serverName) && Objects.equals(playerName, key.playerName) && Objects.equals(serviceName, key.serviceName);

@@ -93,6 +93,11 @@ public interface MainConfig {
 
     default boolean isVoteServiceEnabled(String service) {
         List<String> services = getVoteServices();
-        return services.contains("*") || services.contains(service);
+        for (String s : services) {
+            if (s.equals("*") || s.equalsIgnoreCase(service)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -23,21 +23,14 @@ public class VoteListener implements ListenerComponent {
 
     private boolean isVoteAllowed(Vote vote) {
         MainConfig config = plugin.get(MainConfig.class);
-
-        if (!config.isVotesOffline() && Bukkit.getPlayer(vote.playerName) == null) {
-            return false;
-        }
-
-        return config.isVoteServiceEnabled(vote.serviceName);
+        return (config.isVotesOffline() || Bukkit.getPlayer(vote.playerName) != null) && config.isVoteServiceEnabled(vote.serviceName);
     }
 
     @EventHandler
     public void onVote(VotifierEvent event) {
         Vote vote = Vote.fromVotifier(event.getVote());
-        if (!isVoteAllowed(vote)) {
-            return;
+        if (isVoteAllowed(vote)) {
+            plugin.get(VoteManager.class).getHolder().addVote(vote);
         }
-
-        plugin.get(VoteManager.class).getHolder().addVote(vote);
     }
 }

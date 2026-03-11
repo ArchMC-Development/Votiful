@@ -25,10 +25,18 @@ public class VoteValue {
 
     public final int vote;
     public final long lastVoteTimestamp;
+    private final int hashCode;
 
     public VoteValue(int vote, long lastVoteTimestamp) {
         this.vote = vote;
         this.lastVoteTimestamp = lastVoteTimestamp;
+        this.hashCode = calculateHashCode();
+    }
+
+    private int calculateHashCode() {
+        int result = vote;
+        result = 31 * result + Long.hashCode(lastVoteTimestamp);
+        return result;
     }
 
     public VoteValue addVote(int vote, long timestamp) {
@@ -41,6 +49,7 @@ public class VoteValue {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VoteValue voteValue = (VoteValue) o;
         return vote == voteValue.vote && lastVoteTimestamp == voteValue.lastVoteTimestamp;
