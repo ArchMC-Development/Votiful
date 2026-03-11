@@ -158,12 +158,6 @@
         </dependency>
         <dependency>
             <groupId>io.github.projectunified</groupId>
-            <artifactId>minelib-plugin-command</artifactId>
-            <version>${minelib.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.projectunified</groupId>
             <artifactId>minelib-plugin-listener</artifactId>
             <version>${minelib.version}</version>
             <scope>compile</scope>

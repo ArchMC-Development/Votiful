@@ -1,14 +1,12 @@
 package me.hsgamer.votiful;
 
 import io.github.projectunified.minelib.plugin.base.BasePlugin;
-import io.github.projectunified.minelib.plugin.command.CommandComponent;
 import me.hsgamer.hscore.bukkit.config.BukkitConfig;
 import me.hsgamer.hscore.config.proxy.ConfigGenerator;
 import me.hsgamer.hscore.database.Setting;
 import me.hsgamer.hscore.database.client.sql.SqlClient;
 import me.hsgamer.hscore.database.client.sql.java.JavaSqlClient;
 import me.hsgamer.topper.spigot.template.storagesupplier.SpigotStorageSupplierTemplate;
-import me.hsgamer.votiful.command.StressVoteCommand;
 import me.hsgamer.votiful.config.MainConfig;
 import me.hsgamer.votiful.hook.PlaceholderAPIHook;
 import me.hsgamer.votiful.listener.VoteListener;
@@ -36,7 +34,6 @@ public final class Votiful extends BasePlugin {
                 new EventManager(this),
 
                 new VoteListener(this),
-                new CommandComponent(this, new StressVoteCommand(this)),
 
                 new PlaceholderAPIHook(this)
         );
