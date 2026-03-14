@@ -90,14 +90,4 @@ public interface MainConfig {
     default List<String> getVoteServices() {
         return Collections.singletonList("*");
     }
-
-    default boolean isVoteServiceEnabled(String service) {
-        List<String> services = getVoteServices();
-        for (String s : services) {
-            if (s.equals("*") || s.equalsIgnoreCase(service)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
